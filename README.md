@@ -10,11 +10,13 @@ We have seen the application for the chain of fast-casual restaurants such as [C
 
 ## User stories
 
+Our user stories can be found [here](https://github.com/software-students-fall2022/web-app-exercise-team-18-1/issues).
+
 As a customer, I want to know what is on the menu of a certain food truck.
 
 As a customer, I want to place orders of food trucks online.
 
-As a food truck owner, I want to update the items on the menu
+As a food truck owner, I want to update the items on the menu.
 
 
 ## Task boards
