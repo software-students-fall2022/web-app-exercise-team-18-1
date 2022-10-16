@@ -16,7 +16,19 @@ As a customer, I want to know what is on the menu of a certain food truck.
 
 As a customer, I want to place orders of food trucks online.
 
+As a customer, I want to leave a review.
+
+As a customer, I want to search by highest rated food trucks.
+
+As a customer, I want to view all trucks currently open
+
 As a food truck owner, I want to update the items on the menu.
+
+As a food truck owner, I want to update the prices of items on the menu.
+
+As a food truck owner, I want to indicate availability.
+
+
 
 
 ## Task boards
