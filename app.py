@@ -7,11 +7,10 @@ import pymongo
 import datetime
 from bson.objectid import ObjectId
 import sys
-from flask_simplelogin import SimpleLogin
+# from flask_simplelogin import SimpleLogin
 
 # instantiate the app
 app = Flask(__name__)
-SimpleLogin(app)
 
 
 # load credentials and configuration options from .env file
@@ -122,6 +121,15 @@ def delete(mongoid):
     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 
+
+@app.route('/home/customer/', methods=['GET', 'POST'])
+def customer_home():
+    return render_template('customer_home.html')
+
+@app.route('/home/customer/truck', methods=['GET', 'POST'])
+def view_truck():
+    return render_template('view_trucks.html')
+
 ####################
 # login and register
 ####################
@@ -130,29 +138,29 @@ def delete(mongoid):
 @app.route('/register/customer/', methods=['POST', 'GET'])
 def register_customer():
     if request.method == 'GET':
-        return render_template('register-customer.html')
+        return render_template('register_customer.html')
     else:
         email = str(request.form.get('email')).replace(".", "_")
         password = request.form.get('password')
         name = request.form.get('name')
         phone_number = request.form.get('phone_number')
         if db.customers.count({"email": email}) > 0:
-            return render_template('register-customer.html', error='User already exists!')
+            return render_template('register_customer.html', error='User already exists!')
 
         elif len(email) >= 50 or len(email.split("@")) < 2:
-            return render_template('register-customer.html', error='Please enter a valid email!')
+            return render_template('register_customer.html', error='Please enter a valid email!')
 
         elif len(name) >= 50:
-            return render_template('register-customer.html', error='Your name is too long!')
+            return render_template('register_customer.html', error='Your name is too long!')
 
         elif len(phone_number) > 13:
-            return render_template('register-customer.html', error='Please enter a real phone number!')
+            return render_template('register_customer.html', error='Please enter a real phone number!')
 
         else:
             try:
                 int_phone_number = int(phone_number)
             except:
-                return render_template('register-customer.html', error='Please enter a real phone number!')
+                return render_template('register_customer.html', error='Please enter a real phone number!')
 
 
             # md5_pass = md5(password.encode('utf-8')).hexdigest()
@@ -169,7 +177,7 @@ def register_customer():
 @app.route('/register/owner/', methods=['POST', 'GET'])
 def register_owner():
     if request.method == 'GET':
-        return render_template('register-owner.html')
+        return render_template('register_owner.html')
     else:
         email = str(request.form.get('email')).replace(".", "_")
         password = request.form.get('password')
@@ -179,22 +187,22 @@ def register_owner():
 
 
         if db.owners.count({"email": email}) > 0:
-            return render_template('register-owner.html', error='User already exists!')
+            return render_template('register_owner.html', error='User already exists!')
 
         elif len(email) >= 50 or len(email.split("@")) < 2:
-            return render_template('register-owner.html', error='Please enter a valid email!')
+            return render_template('register_owner.html', error='Please enter a valid email!')
 
         elif len(name) >= 50:
-            return render_template('register-owner.html', error='Your name is too long!')
+            return render_template('register_owner.html', error='Your name is too long!')
 
         elif len(phone_number) > 13:
-            return render_template('register-owner.html', error='Please enter a real phone number!')
+            return render_template('register_owner.html', error='Please enter a real phone number!')
 
         else:
             try:
                 int_phone_number = int(phone_number)
             except:
-                return render_template('register-owner.html', error='Please enter a real phone number!')
+                return render_template('register_owner.html', error='Please enter a real phone number!')
 
 
             # md5_pass = md5(password.encode('utf-8')).hexdigest()
@@ -212,35 +220,41 @@ def register_owner():
 
 # Login
 
-# @app.route('/login/', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'GET':
-#         return render_template('login.html')
-#     else:
-#         if request.form.get('customer'):
-#             return login_customer(email=request.form.get('email'), password=request.form.get('password'))
-#         if request.form.get('owner'):
-#             return login_agent(email=request.form.get('email'), password=request.form.get('password'))
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        if request.form.get('customer'):
+            return login_customer(email=request.form.get('email'), password=request.form.get('password'))
+        if request.form.get('owner'):
+            return login_owner(email=request.form.get('email'), password=request.form.get('password'))
 
-# def login_customer(email, password):
+def login_customer(email, password):
 
-#     if db.customers.find()
-#         return home()
-#     else:
-#         # login unsuccessful
-#         return render_template('login.html', error='Wrong username or password!')
+    email = str(request.form.get('email')).replace(".", "_")
+    password = request.form.get('password')
+    print(db.customers.count({"email": email}))
+    print(db.customers.find({"email": email}).password)
+    if db.customers.count({"email": email}) > 0:
+        return render_template('customer_home.html')
 
 
-# def login_agent(email, password):
-#     md5_pass = md5(password.encode('utf8')).hexdigest()
-#     if mt.root_check_exists(user='root', table='booking_agent', attribute=['email', 'password'],
-#                             value=[email, md5_pass]):
-#         # login success
-#         session['user'] = email + ':B'
-#         return back_home()
-#     else:
-#         # login unsuccessful
-#         return render_template('login.html', error='Wrong username or password!')
+    else:
+        # login unsuccessful
+        return render_template('customer_home.html', error='Wrong username or password!')
+
+
+def login_owner(email, password):
+    email = str(request.form.get('email')).replace(".", "_")
+    password = request.form.get('password')
+    if db.owners.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
+        return render_template('business_home.html')
+
+
+    else:
+        # login unsuccessful
+        return render_template('login.html', error='Wrong username or password!')
 
 
 

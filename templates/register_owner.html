@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+    <title>Register</title>
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/form.css') }}"
+  />
+	</head>
+<body>
+<script>
+
+</script>
+<form class="box" action="/register/owner/" method="POST">
+<h1>Owner Register</h1>
+        <a id="sign-in" href="/home/">Already have an account? Sign in</a>
+		<input type="text" name = "email" placeholder="Email" required/> </br>
+		<input type="password" name = "password" placeholder="Password" required/></br>
+		<input type="text" name = "name" placeholder="Your full name" required/> </br>
+    	<input type="text" name = "phone_number" placeholder="Phone"/></br><hr color=#555555  style="width: 80%"/>
+		
+		<input type="submit" name="" value = Register />
+		<a id="go-back" href="/login/">Go back</a>
+        {% if error %}
+    <div class="error">
+        <p>{{ error }}</p>
+    </div>
+    {% endif %}
+        
+</form>
+
+</body>
+
+</html>

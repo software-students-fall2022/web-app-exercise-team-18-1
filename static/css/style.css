@@ -16,6 +16,8 @@ header,
 footer,
 main {
   padding: 2rem;
+  font-family: sans-serif;
+
 }
 
 header,
