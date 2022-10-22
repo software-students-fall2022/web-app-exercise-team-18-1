@@ -243,6 +243,12 @@ def register_owner():
 #         return render_template('login.html', error='Wrong username or password!')
 
 
+#home screen for food truck owners
+@app.route('/ft/<ftid>')
+def ft_home():
+    docs = db.ftid.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
+    return render_template('food_truck.html', docs=docs) # render the hone template
+
 #Adding menu items for restaurant owners
 @app.route('/<ftid>/add',methods=['POST'])
 def menu_add(mongoid):
@@ -281,7 +287,7 @@ def edit_post(mongoid):
         "price": price,
     }
 
-    db.exampleapp.update_one(
+    db.ftid.update_one(
         {"_id": ObjectId(itemid)}, # match criteria
         { "$set": doc }
     )
@@ -304,7 +310,7 @@ def edit_post(mongoid):
         "to": to_x, 
     }
 
-    db.exampleapp.update_one(
+    db.ftid.update_one(
         {"_id": ObjectId(avid)}, # match criteria
         { "$set": doc }
     )
@@ -313,6 +319,14 @@ def edit_post(mongoid):
 
 
 #Adding photos
+
+
+#User browsing restaurants
+
+@app.route('/u/<uid>/<ftid>')
+def ft_home():
+    docs = db.ftid.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
+    return render_template('food_truck.html', docs=docs) # render the hone template
 
 
 
