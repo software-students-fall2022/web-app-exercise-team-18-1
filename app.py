@@ -243,6 +243,80 @@ def register_owner():
 #         return render_template('login.html', error='Wrong username or password!')
 
 
+#Adding menu items for restaurant owners
+@app.route('/<ftid>/add',methods=['POST'])
+def menu_add(mongoid):
+    name = request.form['fname']
+    desc = request.form['fdesc']
+    price = request.form['fprice']
+
+    doc = {
+        # "_id": ObjectId(mongoid), 
+        "name": name, 
+        "desc": desc, 
+        "price": price,
+    }
+
+    db.ftid.insert_one(doc)
+    return redirect
+
+#deleting menu items
+@app.route('<ftid>/delete/<itemid>')
+def delete(mongoid):   
+    db.ftid.delete_one({"_id": ObjectId(itemid)})
+    return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
+
+#updating menu items
+@app.route('<ftid>/edit/<itemid>', methods=['POST'])
+def edit_post(mongoid):
+ 
+    name = request.form['fname']
+    desc = request.form['fdesc']
+    price = request.form['fprice']
+
+    doc = {
+        # "_id": ObjectId(mongoid), 
+        "name": name, 
+        "desc": desc, 
+        "price": price,
+    }
+
+    db.exampleapp.update_one(
+        {"_id": ObjectId(itemid)}, # match criteria
+        { "$set": doc }
+    )
+
+    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+
+#Changing availability
+
+@app.route('<ftid>/update/<avid>', methods=['POST'])
+def edit_post(mongoid):
+ 
+    from_x = request.form['from']
+    to_x = request.form['to']
+    
+    #maybe add error handling here
+    
+    doc = {
+        # "_id": ObjectId(mongoid), 
+        "from": from_x, 
+        "to": to_x, 
+    }
+
+    db.exampleapp.update_one(
+        {"_id": ObjectId(avid)}, # match criteria
+        { "$set": doc }
+    )
+
+    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+
+
+#Adding photos
+
+
+
+
 
 
 # route to handle any errors
