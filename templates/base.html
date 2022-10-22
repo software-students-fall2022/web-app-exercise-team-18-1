@@ -14,6 +14,12 @@
         <nav>
           <a href="{{ url_for('home')}}">Home</a>
         </nav>
+        <nav>
+          <a href="{{ url_for('register_customer')}}">Customer Sign Up</a>
+        </nav>
+        <nav>
+          <a href="{{ url_for('register_owner')}}">Owner Sign Up</a>
+        </nav>
       </header>
       <main>{% block container %} {% endblock %}</main>
       <footer>
