@@ -51,6 +51,27 @@ def home():
     docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
     return render_template('index.html', docs=docs) # render the hone template
 
+# @app.route('/')
+# def home():
+#     return redirect(url_for('login'))
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/home', methods=['POST'])
+def get_home():
+    username = request.form['username']
+    password = request.form['password']
+
+    user = db.users.find_one({
+        "username": username,
+        "password": password
+    })
+
+    if(user)
+
+
 # route to accept form submission and create a new post
 @app.route('/create', methods=['POST'])
 def create_post():
