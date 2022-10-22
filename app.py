@@ -261,6 +261,10 @@ def menu_add(mongoid):
         "name": name, 
         "desc": desc, 
         "price": price,
+        "is_item"= 1,
+        "is_hrs" = 0,
+        "is_rev" = 0,
+        "is_loc"=0,
     }
 
     db.ftid.insert_one(doc)
@@ -285,6 +289,10 @@ def edit_post(mongoid):
         "name": name, 
         "desc": desc, 
         "price": price,
+        "is_item"= 1,
+        "is_hrs" = 0,
+        "is_rev" = 0,
+        "is_loc"=0,
     }
 
     db.ftid.update_one(
@@ -307,7 +315,11 @@ def edit_post(mongoid):
     doc = {
         # "_id": ObjectId(mongoid), 
         "from": from_x, 
-        "to": to_x, 
+        "to": to_x,
+        "is_item"= 0,
+        "is_hrs" = 1,
+        "is_rev" = 0,
+        "is_loc"=0,
     }
 
     db.ftid.update_one(
@@ -325,8 +337,10 @@ def edit_post(mongoid):
 
 @app.route('/u/<uid>/<ftid>')
 def ft_home():
-    docs = db.ftid.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
-    return render_template('food_truck.html', docs=docs) # render the hone template
+    items = db.ftid.find({}) # sort in descending order of created_at timestamp
+    revs= db.ftid.find({})
+    open_hrs = db.v
+    return render_template('food_truck.html', items=items, revs=revs, ) # render the hone template
 
 
 
