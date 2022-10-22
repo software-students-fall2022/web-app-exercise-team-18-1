@@ -48,6 +48,13 @@
         </div>
         <div class="div-19">
           <div class="builder-columns div-20">
+          	<div class="builder-column column-5">
+            	<form method="get" action="{{ url_for('view_reviews', mongoid=mongoid) }}">
+              		<div class="div-22">
+                    	<input type="submit" name="view-reviews-btn" value="View Reviews"/>
+                    </div>
+                </form>
+            </div>
             <div class="builder-column column-4">
             	<form method="get" action="{{ url_for('leave_review', mongoid=mongoid) }}">
                     <div class="div-21">
