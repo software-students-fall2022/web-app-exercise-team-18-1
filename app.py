@@ -72,7 +72,13 @@ def get_home():
         "password": password
     })
 
-    if(user)
+    if(user == None):
+        return redirect(url_for('login'))
+    elif(user['is_business'] == 1):
+        return redirect(url_for('bus_home'))
+    else:
+        return redirect(url_for('cus_home'))
+    
 
 
 # route to accept form submission and create a new post
