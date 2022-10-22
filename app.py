@@ -53,13 +53,6 @@ def home():
     docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
     return render_template('index.html', docs=docs) # render the hone template
 
-# @app.route('/')
-# def home():
-#     return redirect(url_for('login'))
-
-@app.route('/login')
-def login():
-    return render_template('login.html')
 
 @app.route('/home', methods=['POST'])
 def get_home():
@@ -247,7 +240,7 @@ def register_owner():
 
 # Login
 
-@app.route('/login/', methods=['GET', 'POST'])
+@app.route('/login/', methods=['GET', 'POST'], endpoint='login')
 def login():
     if request.method == 'GET':
         return render_template('login.html')
@@ -259,11 +252,10 @@ def login():
 
 def login_customer(email, password):
 
-    email = str(request.form.get('email')).replace(".", "_")
-    password = request.form.get('password')
+    email = str(email).replace(".", "_")
     print(db.customers.count({"email": email}))
     print(db.customers.find({"email": email}).password)
-    if db.customers.count({"email": email}) > 0:
+    if db.customers.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
         return render_template('customer_home.html')
 
 
@@ -273,8 +265,7 @@ def login_customer(email, password):
 
 
 def login_owner(email, password):
-    email = str(request.form.get('email')).replace(".", "_")
-    password = request.form.get('password')
+    email = str(email).replace(".", "_")
     if db.owners.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
         return render_template('business_home.html')
 
@@ -292,7 +283,7 @@ def ft_home():
 
 #Adding menu items for restaurant owners
 @app.route('/ft/<ftid>/add',methods=['POST'])
-def menu_add(mongoid):
+def menu_add(ftid):
     name = request.form['fname']
     desc = request.form['fdesc']
     price = request.form['fprice']
@@ -311,14 +302,14 @@ def menu_add(mongoid):
     return redirect
 
 #deleting menu items
-@app.route('/ft<ftid>/delete/<itemid>')
-def delete(mongoid):   
+@app.route('/ft/<ftid>/delete/<itemid>')
+def delete_item(itemid):   
     db.ftid.delete_one({"_id": ObjectId(itemid)})
     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 #updating menu items
-@app.route('/ft<ftid>/edit/<itemid>', methods=['POST'])
-def edit_post(mongoid):
+@app.route('/ft/<ftid>/edit/<itemid>', methods=['POST'])
+def edit_item(itemid):
  
     name = request.form['fname']
     desc = request.form['fdesc']
@@ -344,8 +335,8 @@ def edit_post(mongoid):
 
 #Changing availability
 
-@app.route('<ftid>/update/<avid>', methods=['POST'])
-def edit_post(mongoid):
+@app.route('/ft/<ftid>/update/<avid>', methods=['POST'])
+def update_avai(avid):
  
     from_x = request.form['from']
     to_x = request.form['to']
@@ -367,7 +358,7 @@ def edit_post(mongoid):
     #     { "$set": doc }
     # )
 
-    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+    return home() # tell the browser to make a request for the / route (the home function)
 
 
 #Adding photos
@@ -376,7 +367,7 @@ def edit_post(mongoid):
 #User browsing restaurants
 
 @app.route('/u/<uid>/<ftid>')
-def ft_home():
+def browse_restaurants():
     items = db.ftid.find({}) # sort in descending order of created_at timestamp
     revs= db.ftid.find({})
     open_hrs = db.v
