@@ -1,46 +1,59 @@
 <div class="div">
-    <div class="div-2">Add Review for {{ft_name}}</div>
-        <form method="post" action="{{ url_for('add_review', mongoid=mongoid) }}">
-        <div class="div-3">
-          <div class="div-4">Review Title:</div>
-          <div class="div-5">
-            <div class="builder-columns div-6">
-              <div class="builder-column column">
-                <div class="div-7">
-                    <input type="text" name="title" required/>
-                </div>
+    <div class="div-2">Welcome!</div>
+    <br>
+    <form method="post" action="{{ url_for('bus_sign_up') }}">
+      <div class="div-3">
+        <div class="div-4">Truck Name:</div>
+        <div class="div-5">
+          <div class="builder-columns div-6">
+            <div class="builder-column column">
+              <div class="div-7">
+                  <input type="text" name="name" required/>
               </div>
             </div>
           </div>
         </div>
-        <div class="div-8">
-          <div class="div-9">Review Description:</div>
-          <div class="div-10">
-            <div class="builder-columns div-11">
-              <div class="builder-column column">
-                <div class="div-12">
-                    <input type="text" name="description" required/>
-                </div>
+      </div>
+      <div class="div-8">
+        <div class="div-9">Truck Location:</div>
+        <div class="div-10">
+          <div class="builder-columns div-11">
+            <div class="builder-column column">
+              <div class="div-12">
+                  <input type="text" name="location" required/>
               </div>
             </div>
           </div>
         </div>
-        <div class="div-13">
-          <div class="div-14">Rating:</div>
-          <div class="div-15">
-            <div class="builder-columns div-16">
-              <div class="builder-column column">
-                <div class="div-17">
-                    <input type="number" name="rating" min="1" max="5" required/>
-                </div>
+      </div>
+      <div class="div-13">
+        <div class="div-14">Open Time:</div>
+        <div class="div-15">
+          <div class="builder-columns div-16">
+            <div class="builder-column column">
+              <div class="div-17">
+                  <input type="time" name="open_time" required/>
               </div>
             </div>
           </div>
         </div>
-        <div class="div-18">
-            <input type="submit" name="submit-btn" value="Submit"/>
+      </div>
+      <div class="div-18">
+        <div class="div-19">Close Time:</div>
+        <div class="div-20">
+          <div class="builder-columns div-21">
+            <div class="builder-column column">
+              <div class="div-22">
+                  <input type="time" name="close_time" required/>
+              </div>
+            </div>
+          </div>
         </div>
-      </form>
+      </div>
+        <div class="div-28">
+          <input type="submit" name="submit-btn" value="Submit"/>
+        </div>
+    </form>
   </div>
   <style>
     .div {
@@ -69,7 +82,7 @@
       max-width: 358px;
       justify-content: flex-start;
       align-items: flex-start;
-      margin-top: 73px;
+      margin-top: 5px;
     }
     .div-4 {
       max-width: 100%;
@@ -134,7 +147,7 @@
       max-width: 358px;
       justify-content: flex-start;
       align-items: flex-start;
-      margin-top: 73px;
+      margin-top: 5px;
     }
     .div-9 {
       max-width: 100%;
@@ -187,7 +200,7 @@
       max-width: 358px;
       justify-content: flex-start;
       align-items: flex-start;
-      margin-top: 73px;
+      margin-top: 5px;
     }
     .div-14 {
       max-width: 100%;
@@ -236,11 +249,117 @@
     }
     .div-18 {
       display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-19 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-20 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-21 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-21 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-22 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-23 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-24 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-25 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-26 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-26 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-27 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-28 {
+      display: flex;
       flex-direction: row;
       max-width: 52px;
       justify-content: center;
       align-items: center;
-      margin-top: 73px;
+      margin-top: 5px;
       padding-top: 12px;
       padding-right: 16px;
       padding-bottom: 12px;
