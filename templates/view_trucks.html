@@ -1,5 +1,5 @@
 <div class="div">
-	<form action="/trucks" method="post">
+	<form action="{{ url_for('browse_trucks') }}" method="post">
     <div class="div-2">
       <div class="div-3">
       	<input type="checkbox" name="curr_open"/>
@@ -41,33 +41,34 @@
             <div class="builder-column column-3">
               <div class="card-content-if-you-want-to-ad">
                 Location: {{doc.location}} <br>
-                Hours: {{doc.open_time}} to {{doc.close_time}}
+                Hours: {{doc.open_time}} to {{doc.close_time}} <br>
+                Average Rating: {{doc.avg_rating}}
               </div>
             </div>
           </div>
         </div>
+        <div class="builder-column column-5">
+          <form method="get" action="{{ url_for('view_menu', ftid=ftid) }}">
+              <div class="div-22">
+                  <input type="submit" name="view-menu-btn" value="View Menu"/>
+                </div>
+            </form>
+        </div>
         <div class="div-19">
           <div class="builder-columns div-20">
           	<div class="builder-column column-5">
-            	<form method="get" action="{{ url_for('view_reviews', mongoid=mongoid) }}">
+            	<form method="get" action="{{ url_for('view_reviews', ftid=ftid) }}">
               		<div class="div-22">
                     	<input type="submit" name="view-reviews-btn" value="View Reviews"/>
                     </div>
                 </form>
             </div>
             <div class="builder-column column-4">
-            	<form method="get" action="{{ url_for('leave_review', mongoid=mongoid) }}">
+            	<form method="get" action="{{ url_for('leave_review', ftid=ftid) }}">
                     <div class="div-21">
                         <input type="submit" name="leave-rev-btn" value="Leave Review"/>
                     </div>
                  </form>
-            </div>
-            <div class="builder-column column-5">
-            	<form method="get" action="{{ url_for('view_menu', mongoid=mongoid) }}">
-              		<div class="div-22">
-                    	<input type="submit" name="view-menu-btn" value="View Menu"/>
-                    </div>
-                </form>
             </div>
           </div>
         </div>

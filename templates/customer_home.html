@@ -31,12 +31,16 @@
         <div class="builder-columns div-14">
           <div class="builder-column column-2">
             <div class="div-15">
-              <a href="{{ url_for('edit_review',mongoid=doc._id)}}">Edit</a>
+              <form method="get" action="{{ url_for('edit_review', mongoid=mongoid) }}">
+                <input type="submit" name="edit-btn" value="Edit"/>
+              </form>
             </div>
           </div>
           <div class="builder-column column-3">
             <div class="div-16">
-              <a href="{{ url_for('delete_review',mongoid=doc._id)}}">Delete</a>
+              <form method="get" action="{{ url_for('delete_review', mongoid=mongoid) }}">
+                <input type="submit" name="delete-btn" value="Delete"/>
+              </form>
             </div>
           </div>
         </div>
@@ -45,7 +49,9 @@
     {%endfor%}
   </section>
   <div class="div-28">
-    <a href="{{ url_for('trucks')}}">Browse Trucks</a>
+    <form method="get" action="{{ url_for('browse_trucks') }}">
+      <input type="submit" name="browse-btn" value="Browse Trucks"/>
+    </form>
   </div>
   <div class="div-29">
     <a href="{{ url_for('login')}}">Logout</a>
@@ -236,7 +242,6 @@
     align-items: center;
     padding-top: 12px;
     padding-right: 16px;
-    padding-bottom: 12px;
     padding-left: 16px;
     border-color: rgba(31, 31, 31, 1);
     border-width: 1px;
@@ -268,7 +273,6 @@
     align-items: center;
     padding-top: 12px;
     padding-right: 16px;
-    padding-bottom: 12px;
     padding-left: 16px;
     background-color: rgba(31, 31, 31, 1);
     color: rgba(255, 255, 255, 1);
@@ -449,7 +453,6 @@
     align-items: center;
     padding-top: 12px;
     padding-right: 16px;
-    padding-bottom: 12px;
     padding-left: 16px;
     background-color: rgba(31, 31, 31, 1);
     color: rgba(255, 255, 255, 1);

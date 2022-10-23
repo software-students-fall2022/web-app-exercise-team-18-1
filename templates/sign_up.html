@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <div class="div">
     <div class="div-3">PICTURE</div>
-    <form method="post" action="/sign-up">
+    <form method="post" action="{{ url_for('sign_up') }}">
     <div class="div-4">
       <div class="div-5">Username:</div>
       <div class="div-6">
@@ -229,7 +229,7 @@
       font-size: 0;
     }
     .div-16 {
-      max-width: 249px;
+      max-width: 1000px;
       margin-left: 8px;
       color: rgba(31, 31, 31, 1);
       font-size: 16px;

@@ -7,7 +7,7 @@
       </div>
     </div>
     <div class="div-6">Login:</div>
-    <form action="/home" method="post">
+    <form action="{{url_for('login')}}" method="post">
         <div class="div-7">
         <div class="div-8">
             <div class="builder-columns div-9">
@@ -32,7 +32,7 @@
     </form>
     <div class="div-16">Sign Up:</div>
     <div class="div-17">
-        <form action="/sign-up" method="get">
+        <form action="{{ url_for('sign_up') }}" method="get">
             <input type="submit" name="reg-btn" value="Click here to Register" />
         </form>
     </div>

@@ -1,5 +1,5 @@
 <div class="div">
-    <div class="div-2">Add Review for {{doc.name}}</div>
+    <div class="div-2">Add Review for {{ft_name}}</div>
         <form method="post" action="{{ url_for('add_review', mongoid=mongoid) }}">
         <div class="div-3">
           <div class="div-4">Review Title:</div>
@@ -7,7 +7,7 @@
             <div class="builder-columns div-6">
               <div class="builder-column column">
                 <div class="div-7">
-                    <input type="text" name="title"/>
+                    <input type="text" name="title" required/>
                 </div>
               </div>
             </div>
@@ -19,7 +19,7 @@
             <div class="builder-columns div-11">
               <div class="builder-column column">
                 <div class="div-12">
-                    <input type="text" name="description"/>
+                    <input type="text" name="description" required/>
                 </div>
               </div>
             </div>
@@ -31,7 +31,7 @@
             <div class="builder-columns div-16">
               <div class="builder-column column">
                 <div class="div-17">
-                    <input type="number" name="rating" min="1" max="5"/>
+                    <input type="number" name="rating" min="1" max="5" required/>
                 </div>
               </div>
             </div>
