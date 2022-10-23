@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Flask-MongoDB Example App</title>
+    <title>Washington Square Food Trucks</title>
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
@@ -10,16 +10,19 @@
   <body>
     <div class="container">
       <header>
-        <h1>Flask-Pymongo Example App</h1>
-        <nav>
-          <a href="{{ url_for('home')}}">Home</a>
-        </nav>
-        <nav>
-          <a href="{{ url_for('register_customer')}}">Customer</a>
-        </nav>
-        <nav>
-          <a href="{{ url_for('register_owner')}}">Owner</a>
-        </nav>
+        <h1>Washington Square Food Trucks</h1>
+        <div class="nav-bar">
+          <nav>
+            <a href="{{ url_for('home')}}">Home</a>
+          </nav>
+          <nav>
+            <a href="{{ url_for('register_customer')}}">Customer</a>
+          </nav>
+          <nav>
+            <a href="{{ url_for('register_owner')}}">Owner</a>
+          </nav>
+        </div>
+        
       </header>
       <main>{% block container %} {% endblock %}</main>
       <footer>

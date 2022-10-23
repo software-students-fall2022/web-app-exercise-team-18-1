@@ -5,9 +5,7 @@
 }
 
 header {
-  display: flex;
-  flex-direction: row;
-  gap: 10em; /* space between elements in the row */
+  gap: 2em; /* space between elements in the row */
   justify-content: space-between; /* align along the flex direction */
   align-items: center; /* align across the flex direction */
 }
@@ -15,9 +13,7 @@ header {
 header,
 footer,
 main {
-  padding: 2rem;
   font-family: sans-serif;
-
 }
 
 header,
@@ -32,6 +28,7 @@ section.posts {
   flex-wrap: wrap;
   gap: 1rem;
 }
+
 
 article.post {
   border: 1px solid black;
@@ -49,4 +46,11 @@ article.post p.message {
 
 footer {
   margin-bottom: 5px;
+}
+
+.nav-bar{
+  display: -webkit-inline-box;
+}
+nav{
+  margin: 2rem;
 }

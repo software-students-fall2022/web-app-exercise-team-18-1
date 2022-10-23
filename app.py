@@ -147,11 +147,13 @@ def delete(mongoid):
 
 @app.route('/home/customer/', methods=['GET', 'POST'])
 def customer_home():
-    return render_template('customer_home.html')
+    docs = db.reviews.find({}).sort("created_at", -1) 
+    return render_template('customer_home.html', docs=docs)
 
 @app.route('/home/customer/truck', methods=['GET', 'POST'])
 def view_truck():
-    return render_template('view_trucks.html')
+    docs = db.trucks.find({}).sort("created_at", -1)
+    return render_template('view_trucks.html', docs=docs)
 
 ####################
 # login and register
@@ -353,7 +355,7 @@ def edit_menu(mongoid):
         return redirect(url_for('view_bus_menu'))
 
 @app.route('/ft/<ftid>/menu/delete')
-def delete_item(mongoid):
+def delete_menu_item(mongoid):
     db.menu.delete_one({'_id': ObjectId(mongoid)})
     return redirect(url_for('view_bus_menu'))
         
