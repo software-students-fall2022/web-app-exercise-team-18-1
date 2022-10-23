@@ -21,14 +21,14 @@
     <div class="div-10">
       <div class="builder-columns div-11">
         <div class="builder-column column-2">
-        	<form method="get" action="{{ url_for('edit_bus_menu', mongoid=mongoid) }}">
+        	<form method="get" action="{{ url_for('edit_info', ftid=ftid) }}">
               <div class="div-12">
                   <input type="submit" name="edit-menu-btn" value="Edit"/>
               </div>
             </form>
         </div>
         <div class="builder-column column-3">
-        	<form method="get" action="{{ url_for('view_bus_menu', mongoid=mongoid) }}">
+        	<form method="get" action="{{ url_for('view_bus_menu', ftid=ftid) }}">
               <div class="div-13">
                   <input type="submit" name="view-bus-menu-btn" value="View Menu"/>
               </div>
@@ -58,7 +58,7 @@
       <div class="builder-columns div-21">
         <div class="builder-column column">
           <div class="div-22">
-          	<form method="get" action="{{ url_for('view_bus_rev', mongoid=mongoid) }}">
+          	<form method="get" action="{{ url_for('view_bus_rev', ftid=ftid) }}">
             	<input type="submit" name="view-bus-rev-btn" value="View Reviews"/>
             </form>
           </div>
