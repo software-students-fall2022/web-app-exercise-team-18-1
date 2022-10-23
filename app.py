@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from crypt import methods
 from flask import Flask, render_template, request, redirect, url_for, make_response
 from dotenv import dotenv_values
 
@@ -78,6 +79,8 @@ def get_home():
         return redirect(url_for('bus_home'))
     else:
         return redirect(url_for('cus_home'))
+
+@app.route('/home/<uid>')
     
 
 
@@ -272,9 +275,116 @@ def register_owner():
 
 #home screen for food truck owners
 @app.route('/ft/<ftid>')
-def ft_home():
-    docs = db.ftid.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
-    return render_template('food_truck.html', docs=docs) # render the hone template
+def ft_home(ftid):
+    doc = db.ft.find_one({"ftid": ftid}) # sort in descending order of created_at timestamp
+    return render_template('business_home.html', doc=doc) # render the hone template
+
+@app.route('/ft/<ftid>/menu')
+def view_bus_menu(ftid):
+    docs = db.menu.find({'ftid': ftid})
+    return render_template('view_bus_menu.html', docs=docs)
+
+@app.route('/ft/<ftid>/reviews')
+def view_bus_rev(ftid):
+    docs = db.reviews.find({'ftid': ftid})
+    return render_template('view_bus_reviews.html', docs=docs)
+
+@app.route('/ft/<ftid>/menu/add', methods=['GET', 'POST'])
+def add_item(ftid):
+    if(request.method == 'GET'):
+        return render_template('add_item.html')
+    else:
+        name = request.form['name']
+        description = request.form['description']
+        price = request.form['price']
+        calories = request.form['calories']
+
+        doc = {
+            'ftid': ftid,
+            'name': name,
+            'description': description,
+            'price': price,
+            'calories': calories
+        }
+
+        db.menu.insert_one(doc)
+
+        return redirect(url_for('view_bus_menu'))
+
+# how are menu items being stored / how are we grouping them so that they are attached to a given ft
+@app.route('/ft/<ftid>/menu/edit', methods=['GET', 'POST'])
+def edit_menu(mongoid):
+    doc = db.menu.find_one({'_id': ObjectId(mongoid)})
+
+    if(request.method == 'GET'):
+        return render_template('edit_item.html', doc=doc)
+    else:
+        name = doc['name']
+        description = doc['description']
+        price = doc['price']
+        calories = doc['calories']
+
+        if(request.form['name'] != None):
+            name = request.form['name']
+        if(request.form['description'] != None):
+            description = request.form['description']
+        if(request.form['price'] != None):
+            price = request.form['price']
+        if(request.form['calories'] != None):
+            calories = request.form['calories']
+
+        new_doc = {
+            'name': name,
+            'description': description,
+            'price': price,
+            'calories': calories
+        }
+
+        db.menu.update_one(
+            {'_id': ObjectId(mongoid)},
+            {'$set': new_doc}
+        )
+
+        return redirect(url_for('view_bus_menu'))
+
+@app.route('/ft/<ftid>/menu/delete')
+def delete_item(mongoid):
+    db.menu.delete_one({'_id': ObjectId(mongoid)})
+    return redirect(url_for('view_bus_menu'))
+        
+
+@app.route('/ft/<ftid>/edit', methods=['GET', 'POST'])
+def edit_info(ftid):
+    doc = db.ft.find_one({"ftid": ftid})
+
+    if(request.method == 'GET'):
+        return render_template('edit_info.html', doc=doc)
+    else:
+        orig_doc = db.ft.find_one({"ftid": ftid})
+
+        location = orig_doc['location']
+        open_time = orig_doc['open_time']
+        close_time = orig_doc['close_time']
+
+        if(request.form['location'] != None):
+            location = request.form['location']
+        if(request.form['open_time'] != None):
+            open_time = request.form['open_time']
+        if(request.form['close_time'] != None):
+            close_time = request.form['close_time']
+
+        new_doc = {
+            'location': location,
+            'open_time': open_time,
+            'close_time': close_time
+        }
+
+        db.ft.update_one(
+            {'ftid': ftid},
+            {'$set': new_doc}
+        )
+
+        return redirect(url_for('ft_home'))
 
 #Adding menu items for restaurant owners
 @app.route('/<ftid>/add',methods=['POST'])
@@ -288,10 +398,10 @@ def menu_add(mongoid):
         "name": name, 
         "desc": desc, 
         "price": price,
-        "is_item"= 1,
-        "is_hrs" = 0,
-        "is_rev" = 0,
-        "is_loc"=0,
+        "is_item": 1,
+        "is_hrs": 0,
+        "is_rev": 0,
+        "is_loc": 0
     }
 
     db.ftid.insert_one(doc)
@@ -316,10 +426,10 @@ def edit_post(mongoid):
         "name": name, 
         "desc": desc, 
         "price": price,
-        "is_item"= 1,
-        "is_hrs" = 0,
-        "is_rev" = 0,
-        "is_loc"=0,
+        "is_item": 1,
+        "is_hrs": 0,
+        "is_rev": 0,
+        "is_loc": 0
     }
 
     db.ftid.update_one(
@@ -343,10 +453,10 @@ def edit_post(mongoid):
         # "_id": ObjectId(mongoid), 
         "from": from_x, 
         "to": to_x,
-        "is_item"= 0,
-        "is_hrs" = 1,
-        "is_rev" = 0,
-        "is_loc"=0,
+        "is_item": 0,
+        "is_hrs": 1,
+        "is_rev": 0,
+        "is_loc": 0
     }
 
     db.ftid.update_one(
