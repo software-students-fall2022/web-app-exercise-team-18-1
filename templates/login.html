@@ -1,270 +1,31 @@
 <!DOCTYPE html>
-<div class="div">
-    <div class="div-2">App Title</div>
-    <div class="div-3">
-      <div class="builder-columns div-4">
-        <div class="builder-column column"><div class="div-5"></div></div>
-      </div>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+    <title>Register</title>
+    <link
+    rel="stylesheet"
+    href="{{ url_for('static', filename='css/form.css') }}"
+  />
+	</head>
+<body>
+<script>
+
+</script>
+<form class="box" action="/home/customer/" method="POST">
+	<h1>Login</h1>
+    <input type="text" name = "username" placeholder="username" required/> </br>
+    <input type="password" name = "password" placeholder="password" required/></br>
+    <input type="submit" name="customer" value = "Login as customer" />
+    <input type="submit" name="owner" value = "Login as truck owner" />
+	<a href="/home/" >Go back</a>
+    {% if error %}
+    <div class="error">
+        <p>{{ error }}</p>
     </div>
-    <div class="div-6">Login:</div>
-    <form action="/home" method="post">
-        <div class="div-7">
-        <div class="div-8">
-            <div class="builder-columns div-9">
-            <div class="builder-column column-2">
-                <input type="text" name="username" value="Username"/>
-            </div>
-            </div>
-        </div>
-        </div>
-        <div class="div-11">
-        <div class="div-12">
-            <div class="builder-columns div-13">
-            <div class="builder-column column-3">
-                <input type="text" name="password" value="Password"/>
-            </div>
-            </div>
-        </div>
-        </div>
-    <div class="div-15">
-        <input type="submit" name="login-btn" value="Login" />
-    </div>
-    </form>
-    <div class="div-16">Sign Up:</div>
-    <div class="div-17">
-        <form action="/sign-up" method="get">
-            <input type="submit" name="reg-btn" value="Click here to Register" />
-        </form>
-    </div>
-  </div>
-  <style>
-    .div {
-      display: flex;
-      flex-direction: column;
-      max-width: 434px;
-      justify-content: flex-start;
-      align-items: center;
-      padding-top: 79px;
-      padding-right: 36px;
-      padding-bottom: 79px;
-      padding-left: 36px;
-      background-color: rgba(255, 255, 255, 1);
-    }
-    .div-2 {
-      max-width: 279px;
-      color: rgba(0, 0, 0, 1);
-      font-size: 40px;
-      line-height: 16px;
-      letter-spacing: 0%;
-      text-align: center;
-      font-family: "Roboto", sans-serif;
-    }
-    .div-3 {
-      display: flex;
-      flex-direction: column;
-      max-width: 362px;
-      margin-top: 21px;
-      padding-top: 10px;
-      padding-right: 10px;
-      padding-bottom: 10px;
-      padding-left: 10px;
-    }
-    .div-4 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-4 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(102.7% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column {
-        width: 100%;
-      }
-    }
-    .div-5 {
-      display: flex;
-      flex-direction: row;
-      max-width: 342px;
-      justify-content: center;
-      align-items: center;
-      padding-top: 8px;
-      padding-right: 8px;
-      padding-bottom: 8px;
-      padding-left: 8px;
-      background-color: rgba(31, 31, 31, 1);
-    }
-    .div-6 {
-      max-width: 171px;
-      margin-top: 21px;
-      color: rgba(0, 0, 0, 1);
-      font-size: 16px;
-      line-height: 20px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Roboto", sans-serif;
-    }
-    .div-7 {
-      display: flex;
-      flex-direction: column;
-      max-width: 358px;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-top: 21px;
-    }
-    .div-8 {
-      display: flex;
-      flex-direction: column;
-      max-width: 100%;
-      align-self: stretch;
-      width: 358px;
-      padding-top: 8px;
-      padding-right: 8px;
-      padding-bottom: 8px;
-      padding-left: 8px;
-      border-color: rgba(222, 222, 222, 1);
-      border-width: 1px;
-      border-style: solid;
-      background-color: rgba(255, 255, 255, 1);
-    }
-    .div-9 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-9 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-2 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(102.09% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-2 {
-        width: 100%;
-      }
-    }
-    .div-10 {
-      max-width: 342px;
-      color: rgba(31, 31, 31, 1);
-      font-size: 16px;
-      line-height: 20px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Roboto", sans-serif;
-    }
-    .div-11 {
-      display: flex;
-      flex-direction: column;
-      max-width: 358px;
-      justify-content: flex-start;
-      align-items: flex-start;
-      margin-top: 21px;
-    }
-    .div-12 {
-      display: flex;
-      flex-direction: column;
-      max-width: 100%;
-      align-self: stretch;
-      width: 358px;
-      padding-top: 8px;
-      padding-right: 8px;
-      padding-bottom: 8px;
-      padding-left: 8px;
-      border-color: rgba(222, 222, 222, 1);
-      border-width: 1px;
-      border-style: solid;
-      background-color: rgba(255, 255, 255, 1);
-    }
-    .div-13 {
-      display: flex;
-    }
-    @media (max-width: 999px) {
-      .div-13 {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-    .column-3 {
-      display: flex;
-      flex-direction: column;
-      line-height: normal;
-      width: calc(102.09% - 0px);
-      margin-left: 0px;
-    }
-    @media (max-width: 999px) {
-      .column-3 {
-        width: 100%;
-      }
-    }
-    .div-14 {
-      max-width: 342px;
-      color: rgba(31, 31, 31, 1);
-      font-size: 16px;
-      line-height: 20px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Roboto", sans-serif;
-    }
-    .div-15 {
-      display: flex;
-      flex-direction: row;
-      max-width: 40px;
-      justify-content: center;
-      align-items: center;
-      margin: auto;
-      margin-top: 21px;
-      padding-top: 12px;
-      padding-right: 16px;
-      padding-bottom: 12px;
-      padding-left: 16px;
-      background-color: rgba(31, 31, 31, 1);
-      color: rgba(255, 255, 255, 1);
-      font-size: 16px;
-      line-height: 20px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Roboto", sans-serif;
-    }
-    .div-16 {
-      max-width: 171px;
-      margin-top: 21px;
-      color: rgba(0, 0, 0, 1);
-      font-size: 16px;
-      line-height: 20px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Roboto", sans-serif;
-    }
-    .div-17 {
-      display: flex;
-      flex-direction: row;
-      max-width: 154px;
-      justify-content: center;
-      align-items: center;
-      margin-top: 21px;
-      padding-top: 12px;
-      padding-right: 16px;
-      padding-bottom: 12px;
-      padding-left: 16px;
-      background-color: rgba(31, 31, 31, 1);
-      color: rgba(255, 255, 255, 1);
-      font-size: 16px;
-      line-height: 20px;
-      letter-spacing: 0%;
-      text-align: left;
-      font-family: "Roboto", sans-serif;
-    }
-  </style>
+    {% endif %}
+</form>
+
+</body>
+
+</html>

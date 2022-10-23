@@ -7,11 +7,10 @@ import pymongo
 import datetime
 from bson.objectid import ObjectId
 import sys
-from flask_simplelogin import SimpleLogin
+# from flask_simplelogin import SimpleLogin
 
 # instantiate the app
 app = Flask(__name__)
-SimpleLogin(app)
 
 
 # load credentials and configuration options from .env file
@@ -53,6 +52,26 @@ def home():
     """
     docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
     return render_template('index.html', docs=docs) # render the hone template
+
+
+@app.route('/home', methods=['POST'])
+def get_home():
+    username = request.form['username']
+    password = request.form['password']
+
+    user = db.users.find_one({
+        "username": username,
+        "password": password
+    })
+
+    if(user == None):
+        return redirect(url_for('login'))
+    elif(user['is_business'] == 1):
+        return redirect(url_for('bus_home'))
+    else:
+        return redirect(url_for('cus_home'))
+    
+
 
 # route to accept form submission and create a new post
 @app.route('/create', methods=['POST'])
@@ -122,6 +141,15 @@ def delete(mongoid):
     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 
+
+@app.route('/home/customer/', methods=['GET', 'POST'])
+def customer_home():
+    return render_template('customer_home.html')
+
+@app.route('/home/customer/truck', methods=['GET', 'POST'])
+def view_truck():
+    return render_template('view_trucks.html')
+
 ####################
 # login and register
 ####################
@@ -130,29 +158,29 @@ def delete(mongoid):
 @app.route('/register/customer/', methods=['POST', 'GET'])
 def register_customer():
     if request.method == 'GET':
-        return render_template('register-customer.html')
+        return render_template('register_customer.html')
     else:
         email = str(request.form.get('email')).replace(".", "_")
         password = request.form.get('password')
         name = request.form.get('name')
         phone_number = request.form.get('phone_number')
         if db.customers.count({"email": email}) > 0:
-            return render_template('register-customer.html', error='User already exists!')
+            return render_template('register_customer.html', error='User already exists!')
 
         elif len(email) >= 50 or len(email.split("@")) < 2:
-            return render_template('register-customer.html', error='Please enter a valid email!')
+            return render_template('register_customer.html', error='Please enter a valid email!')
 
         elif len(name) >= 50:
-            return render_template('register-customer.html', error='Your name is too long!')
+            return render_template('register_customer.html', error='Your name is too long!')
 
         elif len(phone_number) > 13:
-            return render_template('register-customer.html', error='Please enter a real phone number!')
+            return render_template('register_customer.html', error='Please enter a real phone number!')
 
         else:
             try:
                 int_phone_number = int(phone_number)
             except:
-                return render_template('register-customer.html', error='Please enter a real phone number!')
+                return render_template('register_customer.html', error='Please enter a real phone number!')
 
 
             # md5_pass = md5(password.encode('utf-8')).hexdigest()
@@ -169,7 +197,7 @@ def register_customer():
 @app.route('/register/owner/', methods=['POST', 'GET'])
 def register_owner():
     if request.method == 'GET':
-        return render_template('register-owner.html')
+        return render_template('register_owner.html')
     else:
         email = str(request.form.get('email')).replace(".", "_")
         password = request.form.get('password')
@@ -179,22 +207,22 @@ def register_owner():
 
 
         if db.owners.count({"email": email}) > 0:
-            return render_template('register-owner.html', error='User already exists!')
+            return render_template('register_owner.html', error='User already exists!')
 
         elif len(email) >= 50 or len(email.split("@")) < 2:
-            return render_template('register-owner.html', error='Please enter a valid email!')
+            return render_template('register_owner.html', error='Please enter a valid email!')
 
         elif len(name) >= 50:
-            return render_template('register-owner.html', error='Your name is too long!')
+            return render_template('register_owner.html', error='Your name is too long!')
 
         elif len(phone_number) > 13:
-            return render_template('register-owner.html', error='Please enter a real phone number!')
+            return render_template('register_owner.html', error='Please enter a real phone number!')
 
         else:
             try:
                 int_phone_number = int(phone_number)
             except:
-                return render_template('register-owner.html', error='Please enter a real phone number!')
+                return render_template('register_owner.html', error='Please enter a real phone number!')
 
 
             # md5_pass = md5(password.encode('utf-8')).hexdigest()
@@ -212,35 +240,39 @@ def register_owner():
 
 # Login
 
-# @app.route('/login/', methods=['GET', 'POST'])
-# def login():
-#     if request.method == 'GET':
-#         return render_template('login.html')
-#     else:
-#         if request.form.get('customer'):
-#             return login_customer(email=request.form.get('email'), password=request.form.get('password'))
-#         if request.form.get('owner'):
-#             return login_agent(email=request.form.get('email'), password=request.form.get('password'))
+@app.route('/login/', methods=['GET', 'POST'], endpoint='login')
+def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+    else:
+        if request.form.get('customer'):
+            return login_customer(email=request.form.get('email'), password=request.form.get('password'))
+        if request.form.get('owner'):
+            return login_owner(email=request.form.get('email'), password=request.form.get('password'))
 
-# def login_customer(email, password):
+def login_customer(email, password):
 
-#     if db.customers.find()
-#         return home()
-#     else:
-#         # login unsuccessful
-#         return render_template('login.html', error='Wrong username or password!')
+    email = str(email).replace(".", "_")
+    print(db.customers.count({"email": email}))
+    print(db.customers.find({"email": email}).password)
+    if db.customers.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
+        return render_template('customer_home.html')
 
 
-# def login_agent(email, password):
-#     md5_pass = md5(password.encode('utf8')).hexdigest()
-#     if mt.root_check_exists(user='root', table='booking_agent', attribute=['email', 'password'],
-#                             value=[email, md5_pass]):
-#         # login success
-#         session['user'] = email + ':B'
-#         return back_home()
-#     else:
-#         # login unsuccessful
-#         return render_template('login.html', error='Wrong username or password!')
+    else:
+        # login unsuccessful
+        return render_template('customer_home.html', error='Wrong username or password!')
+
+
+def login_owner(email, password):
+    email = str(email).replace(".", "_")
+    if db.owners.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
+        return render_template('business_home.html')
+
+
+    else:
+        # login unsuccessful
+        return render_template('login.html', error='Wrong username or password!')
 
 
 #home screen for food truck owners
@@ -250,84 +282,83 @@ def ft_home():
     return render_template('food_truck.html', docs=docs) # render the hone template
 
 #Adding menu items for restaurant owners
-@app.route('/<ftid>/add',methods=['POST'])
-def menu_add(mongoid):
+@app.route('/ft/<ftid>/add',methods=['POST'])
+def menu_add(ftid):
     name = request.form['fname']
     desc = request.form['fdesc']
     price = request.form['fprice']
 
-    doc = {
-        # "_id": ObjectId(mongoid), 
-        "name": name, 
-        "desc": desc, 
-        "price": price,
-        "is_item"= 1,
-        "is_hrs" = 0,
-        "is_rev" = 0,
-        "is_loc"=0,
-    }
+    # doc = {
+    #     "name": name, 
+    #     "desc": desc, 
+    #     "price": price,
+    #     "is_item"= 1,
+    #     "is_hrs" = 0,
+    #     "is_rev" = 0,
+    #     "is_loc"=0,
+    # }
 
-    db.ftid.insert_one(doc)
+    # db.ftid.insert_one(doc)
     return redirect
 
 #deleting menu items
-@app.route('<ftid>/delete/<itemid>')
-def delete(mongoid):   
+@app.route('/ft/<ftid>/delete/<itemid>')
+def delete_item(itemid):   
     db.ftid.delete_one({"_id": ObjectId(itemid)})
     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 #updating menu items
-@app.route('<ftid>/edit/<itemid>', methods=['POST'])
-def edit_post(mongoid):
+@app.route('/ft/<ftid>/edit/<itemid>', methods=['POST'])
+def edit_item(itemid):
  
     name = request.form['fname']
     desc = request.form['fdesc']
     price = request.form['fprice']
 
-    doc = {
-        # "_id": ObjectId(mongoid), 
-        "name": name, 
-        "desc": desc, 
-        "price": price,
-        "is_item"= 1,
-        "is_hrs" = 0,
-        "is_rev" = 0,
-        "is_loc"=0,
-    }
+    # doc = {
+    #     # "_id": ObjectId(mongoid), 
+    #     "name": name, 
+    #     "desc": desc, 
+    #     "price": price,
+    #     "is_item"= 1,
+    #     "is_hrs" = 0,
+    #     "is_rev" = 0,
+    #     "is_loc"=0,
+    # }
 
-    db.ftid.update_one(
-        {"_id": ObjectId(itemid)}, # match criteria
-        { "$set": doc }
-    )
+    # db.ftid.update_one(
+    #     {"_id": ObjectId(itemid)}, # match criteria
+    #     { "$set": doc }
+    # )
 
     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 #Changing availability
 
-@app.route('<ftid>/update/<avid>', methods=['POST'])
-def edit_post(mongoid):
+@app.route('/ft/<ftid>/update/<avid>', methods=['POST'])
+def update_avai(avid):
  
     from_x = request.form['from']
     to_x = request.form['to']
     
     #maybe add error handling here
     
-    doc = {
-        # "_id": ObjectId(mongoid), 
-        "from": from_x, 
-        "to": to_x,
-        "is_item"= 0,
-        "is_hrs" = 1,
-        "is_rev" = 0,
-        "is_loc"=0,
-    }
+    # doc = {
+    #     # "_id": ObjectId(mongoid), 
+    #     "from": from_x, 
+    #     "to": to_x,
+    #     "is_item"= 0,
+    #     "is_hrs" = 1,
+    #     "is_rev" = 0,
+    #     "is_loc"=0,
+    # }
 
-    db.ftid.update_one(
-        {"_id": ObjectId(avid)}, # match criteria
-        { "$set": doc }
-    )
+    # db.ftid.update_one(
+    #     {"_id": ObjectId(avid)}, # match criteria
+    #     { "$set": doc }
+    # )
 
-    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+    return home() # tell the browser to make a request for the / route (the home function)
 
 
 #Adding photos
@@ -336,7 +367,7 @@ def edit_post(mongoid):
 #User browsing restaurants
 
 @app.route('/u/<uid>/<ftid>')
-def ft_home():
+def browse_restaurants():
     items = db.ftid.find({}) # sort in descending order of created_at timestamp
     revs= db.ftid.find({})
     open_hrs = db.v
