@@ -16,8 +16,8 @@ import sys
 app = Flask(__name__)
 #SimpleLogin(app)
 
-app.new_ftid = 0
-app.new_csid = 0
+# app.new_ftid = 0
+# app.new_csid = 0
 
 # load credentials and configuration options from .env file
 # if you do not yet have a file named .env, make one based on the template in env.example
@@ -57,10 +57,10 @@ def home(uid):
     Route for the home page
     """
     doc = db.users.find_one({'username': uid}) # sort in descending order of created_at timestamp
-    if(doc['is_owner'] == 1):
-        return redirect(url_for('cs_home', csid=uid))
+    if(doc['is_owner'] == 0):
+        return redirect(url_for('cs_home', csid=uid, uid=uid))
     else:
-        return redirect(url_for('ft_home', ftid=uid)) # render the hone template
+        return redirect(url_for('ft_home', ftid=uid, uid=uid)) # render the hone template
 
 # @app.route('/')
 # def home():
@@ -266,7 +266,7 @@ def register_customer():
                 "phone_number": phone_number,
                 "is_owner": 0,
                 });         
-            return redirect(url_for('cs_home', csid=username))
+            return redirect(url_for('cs_home', csid=username, uid=username))
 
 
 @app.route('/register/owner/', methods=['POST', 'GET'])
@@ -320,7 +320,7 @@ def register_owner():
                 "open_time": open_time,
                 "close_time": close_time,
             }) 
-            return redirect(url_for('ft_home', ftid=username))
+            return redirect(url_for('ft_home', ftid=username, uid=username))
 
 
 # Login
@@ -339,7 +339,7 @@ def login_customer(username, password):
 
     username = str(username).replace(".", "_")
     if db.users.count({"username": username}) > 0 and db.users.find_one({"username": username})["password"] == password:
-        return redirect(url_for('cs_home', csid=username))
+        return redirect(url_for('cs_home', csid=username, uid=username))
 
 
     else:
@@ -349,7 +349,7 @@ def login_customer(username, password):
 def login_owner(username, password):
     username = str(username).replace(".", "_")
     if db.users.count({"username": username}) > 0 and db.users.find_one({"username": username})["password"] == password:
-        return  redirect(url_for('ft_home', ftid=username))
+        return  redirect(url_for('ft_home', ftid=username, uid=username))
 
 
     else:
@@ -420,6 +420,7 @@ def view_bus_rev(ftid):
 def edit_menu(ftid,name):
     doc = db.menu.find_one({'ftid': ftid, "name":name})
 
+
     if(request.method == 'GET'):
         return render_template('edit_item.html', doc=doc, ftid=ftid, name =name)
     else:
@@ -488,11 +489,14 @@ def edit_info(ftid):
             {'$set': new_doc}
         )
 
+
         return redirect(url_for('ft_home', ftid=ftid))
+
 
 #################################
 #           CUSTOMERS
 #################################
+
 # @app.route('/home/customer/', methods=['GET', 'POST'])
 # def customer_home():
 #     docs = db.reviews.find({}).sort("created_at", -1) 
@@ -502,12 +506,12 @@ def edit_info(ftid):
 def cs_home(csid):
     recent_review = db.reviews.find_one({'csid': csid})
     #print(recent_review)
-    return render_template('customer_home.html', recent_review=recent_review, csid=csid)
+    return render_template('customer_home.html', recent_review=recent_review, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/reviews/')
 def view_reviews_by_user(csid):
     docs = db.reviews.find({'csid': csid})
-    return render_template('view_cus_reviews.html', docs=docs)
+    return render_template('view_cus_reviews.html', docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/trucks/', methods=['GET', 'POST'])
 def browse_trucks(csid):
@@ -546,7 +550,7 @@ def browse_trucks(csid):
                 else:
                     docs = db.ft.find().sort('avg_rating', -1)
             
-            return render_template('view_trucks.html', docs=docs, csid=csid)
+            return render_template('view_trucks.html', docs=docs, csid=csid, uid=csid)
         else:
             if(curr_open == 'on'):
                 curr_time = datetime.datetime.now()
@@ -571,12 +575,12 @@ def browse_trucks(csid):
                 else:
                     docs = db.ft.find()
             
-            return render_template('view_trucks.html', docs=docs, csid=csid)
+            return render_template('view_trucks.html', docs=docs, csid=csid, uid=csid)
     else:
         docs = db.ft.find()
         # docs["ft"] = db.ft.find()
         # docs["csid"] = csid
-        return render_template('view_trucks.html', docs=docs, csid=csid)
+        return render_template('view_trucks.html', docs=docs, csid=csid, uid=csid)
 
 # @app.route('/cs/<csid>/add-review/')
 # def add_review(mongoid):
@@ -605,11 +609,14 @@ def browse_trucks(csid):
 #     return redirect(url_for('cs_home'))
 
 @app.route('/cs/<csid>/<mongoid>/edit-review/', methods=['GET', 'POST'])
-def edit_review(mongoid):
-    doc = db.reviews.find({'_id': ObjectId(mongoid)})
+def edit_review(mongoid, csid):
+    doc = db.reviews.find_one({'_id': ObjectId(mongoid)})
+
+    ft_name = doc['b_name']
+    id = doc['_id']
 
     if(request.method == 'GET'):
-        return render_template('edit_review.html', doc=doc)
+        return render_template('edit_review.html', doc=doc, ft_name=ft_name, mongoid=id, csid=csid, uid=csid)
     else:
         title = doc['title']
         description = doc['description']
@@ -633,12 +640,12 @@ def edit_review(mongoid):
             {'$set': new_doc}
         )
 
-        return redirect(url_for('cs_home'))
+        return redirect(url_for('cs_home', uid=csid, csid=csid))
 
 @app.route('/cs/<csid>/<mongoid>/delete-review/')
-def delete_review(mongoid):
+def delete_review(csid, mongoid):
     db.reviews.delete_one({'_id': ObjectId(mongoid)})
-    return redirect(url_for('cs_home'))
+    return redirect(url_for('cs_home', uid=csid, csid=csid))
 
 
 @app.route('/cs/<csid>/browse/<ftid>/menu/')
@@ -646,7 +653,7 @@ def view_menu(csid, ftid):
     ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.menu.find({'ftid': ftid})
-    return render_template('view_cus_menu.html', ft_name=ft['name'], docs=docs, csid=csid)
+    return render_template('view_cus_menu.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
     # return render_template('view_cus_menu.html')
 
 @app.route('/cs/<csid>/browse/<ftid>/reviews/')
@@ -654,7 +661,7 @@ def view_reviews(csid, ftid):
     ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.reviews.find({'ftid': ftid})
-    return render_template('view_cus_reviews.html', ft_name=ft['name'], docs=docs, csid=csid)
+    return render_template('view_cus_reviews.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/<ftid>/leave-review/', methods=['GET', 'POST'])
 def leave_review(ftid, csid):
@@ -662,7 +669,7 @@ def leave_review(ftid, csid):
     ft = db.ft.find_one({'ftid': ftid})
 
     if(request.method == 'GET'):
-        return render_template('add_review.html', ft_name=ft['name'], ftid=ftid, csid=csid)
+        return render_template('add_review.html', ft_name=ft['name'], ftid=ftid, csid=csid, uid=csid)
     else:
         title = request.form['title']
         description = request.form['description']
@@ -679,7 +686,7 @@ def leave_review(ftid, csid):
 
         db.reviews.insert_one(doc)
 
-        return redirect(url_for('browse_trucks', csid=csid))
+        return redirect(url_for('browse_trucks', csid=csid, uid=csid))
 
 
 # route to handle any errors
