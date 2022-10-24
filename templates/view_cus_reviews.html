@@ -1,0 +1,43 @@
+{% extends 'base.html' %} {% block container %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+    <title>Register</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}"/>
+
+	</head>
+  <body>
+    <div class="div">
+    </br>
+      <div class="div-2">User Reviews</div> </br>
+      <section class="reviews">
+          {% for doc in docs %}
+          <div class="div-7">
+            <div class="div-8">
+              <div class="builder-columns div-9">
+                <div class="builder-column column">
+                  <div class="div-10">{{doc.title}}</div>
+                </div>
+              </div>
+            </div>
+            <div class="div-11">
+              <div class="builder-columns div-12">
+                <div class="builder-column column">
+                  <div class="card-content-if-you-want-to-ad">
+                    Description: {{doc.description}} <br> Rating: {{doc.rating}}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <a href="/cs/{{csid}}/{{doc._id}}/edit-review/" class="btn">Edit</a>
+            <a href="/cs/{{csid}}/{{doc._id}}/delete-review/" class="btn">Delete</a>
+          </div> </br>
+        {%endfor%}
+      </section>
+    </div>
+  </body>
+</html>
+{% endblock %}
+

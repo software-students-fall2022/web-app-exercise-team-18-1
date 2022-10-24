@@ -1,0 +1,41 @@
+{% extends 'base.html' %} {% block container %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+    <title>Register</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}"/>
+
+	</head>
+  <body>
+    <div class="div">
+      <div class="div-3">{{ft_name}}'s Menu</div>
+      <section class="items">
+        {% for doc in docs %}
+        <div class="div-4">
+          <div class="div-5">
+            <div class="builder-columns div-6">
+              <div class="builder-column column">
+                <div class="div-7">{{doc.name}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="div-8">
+            <div class="builder-columns div-9">
+              <div class="builder-column column">
+                <div class="card-content-if-you-want-to-ad">
+                  Description: {{doc.description}}<br>
+                  Price: ${{doc.price}}<br>
+                  Calories: {{doc.calories}}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {%endfor%}
+      </section>
+    </div>
+  </body>
+</html>
+{% endblock %}

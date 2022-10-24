@@ -1,0 +1,412 @@
+<div class="div">
+  <div class="div-2">{{doc.name}}</div>
+  <div class="div-3">PICTURE HERE</div>
+  <div class="div-4">
+    <div class="div-5">
+      <div class="builder-columns div-6">
+        <div class="builder-column column">
+          <div class="div-7">Your Information</div>
+        </div>
+      </div>
+    </div>
+    <div class="div-8">
+      <div class="builder-columns div-9">
+        <div class="builder-column column">
+          <div class="card-content-if-you-want-to-ad">
+            Location: {{doc.location}} <br> Hours: {{doc.open_time}} to {{doc.close_time}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-10">
+      <div class="builder-columns div-11">
+        <div class="builder-column column-2">
+        	<form method="get" action="{{ url_for('edit_info', ftid=ftid) }}">
+              <div class="div-12">
+                  <input type="submit" name="edit-menu-btn" value="Edit"/>
+              </div>
+            </form>
+        </div>
+        <div class="builder-column column-3">
+        	<form method="get" action="{{ url_for('view_bus_menu', ftid=ftid) }}">
+              <div class="div-13">
+                  <input type="submit" name="view-bus-menu-btn" value="View Menu"/>
+              </div>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="div-14">
+    <div class="div-15">
+      <div class="builder-columns div-16">
+        <div class="builder-column column">
+          <div class="div-17">
+          	Your Reviews
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-18">
+      <div class="builder-columns div-19">
+        <div class="builder-column column">
+          <div class="card-content-if-you-want-to-ad">Average Rating: {{doc.avg_review}}</div>
+        </div>
+      </div>
+    </div>
+    <div class="div-20">
+      <div class="builder-columns div-21">
+        <div class="builder-column column">
+          <div class="div-22">
+          	<form method="get" action="{{ url_for('view_bus_rev', ftid=ftid) }}">
+            	<input type="submit" name="view-bus-rev-btn" value="View Reviews"/>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="div-24">
+  	<a href="/login">Logout</a>
+  </div>
+</div>
+<style>
+  .div {
+    display: flex;
+    flex-direction: column;
+    max-width: 430px;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 55px;
+    padding-right: 36px;
+    padding-bottom: 55px;
+    padding-left: 36px;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .div-2 {
+    max-width: 279px;
+    color: rgba(0, 0, 0, 1);
+    font-size: 36px;
+    line-height: 16px;
+    letter-spacing: 0%;
+    text-align: center;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-3 {
+    display: flex;
+    flex-direction: row;
+    max-width: 326px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 9px;
+    padding-top: 8px;
+    padding-right: 8px;
+    padding-bottom: 8px;
+    padding-left: 8px;
+    background-color: rgba(31, 31, 31, 1);
+  }
+  .div-4 {
+    display: flex;
+    flex-direction: column;
+    max-width: 358px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 9px;
+    border-color: rgba(222, 222, 222, 1);
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .div-5 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    border-color: rgba(234, 234, 234, 1);
+    border-width: 1px;
+    border-style: solid;
+  }
+  .div-6 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-6 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .column {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: calc(105.08% - 0px);
+    margin-left: 0px;
+  }
+  @media (max-width: 999px) {
+    .column {
+      width: 100%;
+    }
+  }
+  .div-7 {
+    max-width: 310px;
+    color: rgba(31, 31, 31, 1);
+    font-size: 18px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-8 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-9 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-9 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .card-content-if-you-want-to-ad {
+    max-width: 310px;
+    color: rgba(31, 31, 31, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-10 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-11 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-11 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .column-2 {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: calc(52.69% - 10px);
+    margin-left: 0px;
+  }
+  @media (max-width: 999px) {
+    .column-2 {
+      width: 100%;
+    }
+  }
+  .div-12 {
+    display: flex;
+    flex-direction: row;
+    max-width: 28px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    border-color: rgba(31, 31, 31, 1);
+    border-width: 1px;
+    border-style: solid;
+    color: rgba(31, 31, 31, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .column-3 {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: calc(52.69% - 10px);
+    margin-left: 20px;
+  }
+  @media (max-width: 999px) {
+    .column-3 {
+      width: 100%;
+    }
+  }
+  .div-13 {
+    display: flex;
+    flex-direction: row;
+    max-width: 80px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    background-color: rgba(31, 31, 31, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-14 {
+    display: flex;
+    flex-direction: column;
+    max-width: 358px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-top: 9px;
+    border-color: rgba(222, 222, 222, 1);
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .div-15 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    border-color: rgba(234, 234, 234, 1);
+    border-width: 1px;
+    border-style: solid;
+  }
+  .div-16 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-16 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .div-17 {
+    max-width: 310px;
+    color: rgba(31, 31, 31, 1);
+    font-size: 18px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-18 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-19 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-19 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .div-20 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-21 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-21 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .div-22 {
+    display: flex;
+    flex-direction: row;
+    max-width: 99px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-left: 16px;
+    border-color: rgba(31, 31, 31, 1);
+    border-width: 1px;
+    border-style: solid;
+    color: rgba(31, 31, 31, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-23 {
+    display: flex;
+    flex-direction: row;
+    max-width: 154px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 9px;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    background-color: rgba(31, 31, 31, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-24 {
+    display: flex;
+    flex-direction: row;
+    max-width: 51px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 9px;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    background-color: rgba(31, 31, 31, 1);
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+</style>

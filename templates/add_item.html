@@ -1,0 +1,387 @@
+<div class="div">
+    <div class="div-2">Add Menu Item</div>
+    <br>
+    <form method="post" action="{{ url_for('add_items', ftid=ftid) }}">
+      <div class="div-3">
+        <div class="div-4">Item Name:</div>
+        <div class="div-5">
+          <div class="builder-columns div-6">
+            <div class="builder-column column">
+              <div class="div-7">
+                  <input type="text" name="name"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-8">
+        <div class="div-9">Item Description:</div>
+        <div class="div-10">
+          <div class="builder-columns div-11">
+            <div class="builder-column column">
+              <div class="div-12">
+                  <input type="text" name="description"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-13">
+        <div class="div-14">Item Price:</div>
+        <div class="div-15">
+          <div class="builder-columns div-16">
+            <div class="builder-column column">
+              <div class="div-17">
+                  <input type="text" name="price"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-18">
+        <div class="div-19">Item Calorie Count:</div>
+        <div class="div-20">
+          <div class="builder-columns div-21">
+            <div class="builder-column column">
+              <div class="div-22">
+                  <input type="text" name="calories"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="div-23">
+        <div class="div-24">Item Category:</div>
+        <div class="div-25">
+          <div class="builder-columns div-26">
+            <div class="builder-column column">
+              <div class="div-27">
+                  <input type="text" name="category"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+        <div class="div-28">
+          <input type="submit" name="submit-btn" value="Submit"/>
+      </div>
+    </form>
+  </div>
+  <style>
+    .div {
+      display: flex;
+      flex-direction: column;
+      max-width: 406px;
+      justify-content: flex-start;
+      align-items: flex-end;
+      padding-top: 34px;
+      padding-right: 24px;
+      padding-bottom: 34px;
+      padding-left: 24px;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-2 {
+      max-width: 330px;
+      color: rgba(0, 0, 0, 1);
+      font-size: 32px;
+      letter-spacing: 0%;
+      text-align: center;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-3 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-4 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-5 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-6 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-6 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .column {
+      display: flex;
+      flex-direction: column;
+      line-height: normal;
+      width: calc(102.09% - 0px);
+      margin-left: 0px;
+    }
+    @media (max-width: 999px) {
+      .column {
+        width: 100%;
+      }
+    }
+    .div-7 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-8 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-9 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-10 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-11 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-11 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-12 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-13 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-14 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-15 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-16 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-16 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-17 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-18 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-19 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-20 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-21 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-21 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-22 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-23 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 5px;
+    }
+    .div-24 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-25 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-26 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-26 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-27 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-28 {
+      display: flex;
+      flex-direction: row;
+      max-width: 52px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 5px;
+      padding-top: 12px;
+      padding-right: 16px;
+      padding-bottom: 12px;
+      padding-left: 16px;
+      background-color: rgba(31, 31, 31, 1);
+      color: rgba(255, 255, 255, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+  </style>

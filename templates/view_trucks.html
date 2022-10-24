@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% block container %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+    <title>Register</title>
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/form.css') }}"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/home.css') }}"/>
+
+	</head>
+  <body>
+    <div class="div">
+      <form action="/cs/{{csid}}/browse/trucks/" method="POST">
+      <div class="div-5">
+        View Currently Open<input type="checkbox" name="curr_open"/>
+      </div>
+      <div class="div-5">
+        Sort by Highest Rated<input type="checkbox" name="highest_rated"/>
+      </div>
+      <div class="div-8">
+        <div class="div-9">Search:</div>
+        <div class="div-10">
+          <div class="builder-columns div-11">
+            <div class="builder-column column">
+              <div class="div-12">
+                <input type="text" name="search_name" placeholder="Business Name" value=""/>
+                <input type="submit" name="search-btn" value="Search"/>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </form>
+      <section class="trucks">
+        {% for doc in docs %}
+        <div class="div-13">
+
+          <div class="div-17">
+            <div class="builder-columns div-18">
+              <div class="builder-column column-3">
+                <div class="card-content-if-you-want-to-ad">
+                 <h3>{{doc.name}}</h3>
+                  Location: {{doc.location}} <br>
+                  Hours: {{doc.open_time}} to {{doc.close_time}} <br>
+                  Average Rating: {{doc.avg_rating}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="builder-column column-5">
+            <a href="/cs/{{csid}}/browse/{{doc.ftid}}/menu/" class="btn">View Menu</a>
+            <a href="/cs/{{csid}}/browse/{{doc.ftid}}/reviews/" class="btn">View Reviews</a>
+            <a href="/cs/{{csid}}/browse/{{doc.ftid}}/leave-review/" class="btn">Leave Review</a>
+          </div>
+        </div>
+        {%endfor%}
+      </section>
+    </div>
+  </body>
+</html>
+{% endblock %}

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<div class="div">
+    <div class="div-3">PICTURE</div>
+    <form method="post" action="{{ url_for('sign_up') }}">
+    <div class="div-4">
+      <div class="div-5">Username:</div>
+      <div class="div-6">
+        <div class="builder-columns div-7">
+          <div class="builder-column column">
+            <input type="text" name="username"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-9">
+      <div class="div-10">Password:</div>
+      <div class="div-11">
+        <div class="builder-columns div-12">
+          <div class="builder-column column">
+            <input type="text" name="password"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="div-14">
+      <div class="div-15">
+        <input type="checkbox" name="is_owner"/>
+      </div>
+      <div class="div-16">I am a Business Owner</div>
+    </div>
+    <div class="div-17"><input type="submit" name="reg-btn" value="Register"></div>
+    </form>
+  </div>
+  <style>
+    .div {
+      display: flex;
+      flex-direction: column;
+      max-width: 406px;
+      justify-content: flex-start;
+      align-items: center;
+      padding-top: 34px;
+      padding-right: 24px;
+      padding-bottom: 34px;
+      padding-left: 24px;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-2 {
+      display: flex;
+      flex-direction: row;
+      max-width: 111px;
+      justify-content: center;
+      align-items: center;
+      padding-top: 12px;
+      padding-right: 16px;
+      padding-bottom: 12px;
+      padding-left: 16px;
+      background-color: rgba(31, 31, 31, 1);
+    }
+    .div-3 {
+      display: flex;
+      flex-direction: row;
+      max-width: 342px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 53px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      background-color: rgba(31, 31, 31, 1);
+    }
+    .div-4 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 53px;
+    }
+    .div-5 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-6 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-7 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-7 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .column {
+      display: flex;
+      flex-direction: column;
+      line-height: normal;
+      width: calc(102.09% - 0px);
+      margin-left: 0px;
+    }
+    @media (max-width: 999px) {
+      .column {
+        width: 100%;
+      }
+    }
+    .div-8 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-9 {
+      display: flex;
+      flex-direction: column;
+      max-width: 358px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-top: 53px;
+    }
+    .div-10 {
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 14px;
+      line-height: 16px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-11 {
+      display: flex;
+      flex-direction: column;
+      max-width: 100%;
+      align-self: stretch;
+      width: 358px;
+      margin-top: 4px;
+      padding-top: 8px;
+      padding-right: 8px;
+      padding-bottom: 8px;
+      padding-left: 8px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+      background-color: rgba(255, 255, 255, 1);
+    }
+    .div-12 {
+      display: flex;
+    }
+    @media (max-width: 999px) {
+      .div-12 {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+    .div-13 {
+      max-width: 342px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-14 {
+      display: flex;
+      flex-direction: row;
+      max-width: 187px;
+      justify-content: flex-start;
+      align-items: center;
+      margin-top: 53px;
+    }
+    .div-15 {
+      display: flex;
+      position: relative;
+      min-width: 20px;
+      min-height: 20px;
+      flex-direction: row;
+      max-width: 16px;
+      justify-content: flex-start;
+      align-items: flex-start;
+      width: 16px;
+      padding-top: 3px;
+      padding-right: 3px;
+      padding-bottom: 3px;
+      padding-left: 3px;
+      border-color: rgba(222, 222, 222, 1);
+      border-width: 1px;
+      border-style: solid;
+    }
+    .image {
+      object-fit: contain;
+      object-position: center;
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      left: 0;
+    }
+    .image-sizer {
+      width: 100%;
+      padding-top: 100%;
+      pointer-events: none;
+      font-size: 0;
+    }
+    .div-16 {
+      max-width: 1000px;
+      margin-left: 8px;
+      color: rgba(31, 31, 31, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+    .div-17 {
+      display: flex;
+      flex-direction: row;
+      max-width: 154px;
+      justify-content: center;
+      align-items: center;
+      margin-top: 53px;
+      padding-top: 12px;
+      padding-right: 16px;
+      padding-bottom: 12px;
+      padding-left: 16px;
+      background-color: rgba(31, 31, 31, 1);
+      color: rgba(255, 255, 255, 1);
+      font-size: 16px;
+      line-height: 20px;
+      letter-spacing: 0%;
+      text-align: left;
+      font-family: "Roboto", sans-serif;
+    }
+  </style>
