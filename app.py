@@ -314,7 +314,7 @@ def register_owner():
                 "is_owner": 1
             })
             db.ft.insert({
-                "ftid": count+1,
+                "ftid": username,
                 "name": ft_name,
                 "location": location,
                 "open_time": open_time,
