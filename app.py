@@ -651,7 +651,7 @@ def delete_review(csid, mongoid):
 
 @app.route('/cs/<csid>/browse/<ftid>/menu/')
 def view_menu(csid, ftid):
-    ftid = int(ftid)
+    # ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.menu.find({'ftid': ftid})
     return render_template('view_cus_menu.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
@@ -659,14 +659,14 @@ def view_menu(csid, ftid):
 
 @app.route('/cs/<csid>/browse/<ftid>/reviews/')
 def view_reviews(csid, ftid):
-    ftid = int(ftid)
+    # ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.reviews.find({'ftid': ftid})
     return render_template('view_cus_reviews_by_truck.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/<ftid>/leave-review/', methods=['GET', 'POST'])
 def leave_review(ftid, csid):
-    ftid = int(ftid)    
+    # ftid = int(ftid)    
     ft = db.ft.find_one({'ftid': ftid})
 
     if(request.method == 'GET'):
