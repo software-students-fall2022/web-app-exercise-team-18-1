@@ -364,27 +364,26 @@ def login_owner(username, password):
 #home screen for food truck owners
 @app.route('/ft/<ftid>/')
 def ft_home(ftid):
+    
+    revs=db.reviews.find({"ftid":ftid})
+    sumx=0
+    num=0
+    for r in revs:
+        sumx+=int(r['rating'])
+        num+=1
+    if num==0:
+        num=1
+        sumx=3
+    avg= float(sumx/num)
+    db.food_trucks.update_one({"ftid":ftid},{'$set':{'avg_rating': avg}})
     doc = db.food_trucks.find_one({"ftid": ftid}) #find details of the food truck
-    return render_template('business_home.html', doc=doc, ftid=ftid) # render the hone template
-
-#viewing menu for a food truck
-@app.route('/ft/<ftid>/menu/')
-def view_bus_menu(ftid):
-    docs = db.menu.find({'ftid': ftid})
-    print(ftid,docs)
-    return render_template('view_bus_menu.html', docs=docs, ftid=ftid)
-
-#viewing reviews for a food truck
-@app.route('/ft/<ftid>/reviews/')
-def view_bus_rev(ftid):
-    docs = db.reviews.find({'ftid': ftid})
-    return render_template('view_bus_reviews.html', docs=docs)
+    return render_template('business_home.html', doc=doc, ftid=ftid) # render the home template
 
 #adding items to menu for a food truck
 @app.route('/ft/<ftid>/menu/add/', methods=['GET', 'POST'])
-def add_item(ftid):
+def add_items(ftid):
     if(request.method == 'GET'):
-        return render_template('add_item.html')
+        return render_template('add_item.html', ftid=ftid)
     else:
         name = request.form['name']
         description = request.form['description']
@@ -396,19 +395,33 @@ def add_item(ftid):
             'name': name,
             'description': description,
             'price': price,
-            'calories': calories
+            'calories': calories,
         }
 
         db.menu.insert_one(doc)
 
         return redirect(url_for('view_bus_menu',ftid=ftid))
 
-@app.route('/ft/<ftid>/menu/<mongoid>/edit/', methods=['GET', 'POST'])
+#viewing menu for a food truck
+@app.route('/ft/<ftid>/menu/')
+def view_bus_menu(ftid):
+    docs = db.menu.find({'ftid': ftid})
+    return render_template('view_bus_menu.html', docs=docs, ftid=ftid)
+
+
+#viewing reviews for a food truck
+@app.route('/ft/<ftid>/reviews/')
+def view_bus_rev(ftid):
+    docs = db.reviews.find({'ftid': ftid})
+    return render_template('view_bus_reviews.html', docs=docs)
+
+
+@app.route('/ft/<ftid>/menu/<name>/edit/', methods=['GET', 'POST'])
 def edit_menu(ftid,name):
     doc = db.menu.find_one({'ftid': ftid, "name":name})
 
     if(request.method == 'GET'):
-        return render_template('edit_item.html', doc=doc)
+        return render_template('edit_item.html', doc=doc, ftid=ftid, name =name)
     else:
         name = doc['name']
         description = doc['description']
@@ -432,13 +445,13 @@ def edit_menu(ftid,name):
         }
 
         db.menu.update_one(
-            {'ftid':ftid,'name': doc[name]},
+            {'ftid':ftid,'name': doc['name']},
             {'$set': new_doc}
         )
 
         return redirect(url_for('view_bus_menu',ftid=ftid))
 
-@app.route('/ft/<ftid>/menu/delete')
+@app.route('/ft/<ftid>/menu/<name>/delete/')
 def delete_menu_item(ftid,name):
     db.menu.delete_one({'ftid': ftid, 'name':name})
     return redirect(url_for('view_bus_menu',ftid=ftid))
