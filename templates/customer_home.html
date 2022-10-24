@@ -15,16 +15,16 @@
     <div class="div-4">
       <div class="builder-columns div-5">
         <div class="builder-column column">
-          <div class="div-6"><h2>Your Reviews</h2></div>
+          <div class="div-6"><h2>Your Latest Review</h2></div>
         </div>
       </div>
       <section class="reviews">
-        {% for doc in docs %}
+        
         <div class="div-7">
           <div class="div-8">
             <div class="builder-columns div-9">
               <div class="builder-column column">
-                <div class="div-10">{{doc.title}}</div>
+                <div class="div-10">{{recent_review.title}}</div>
               </div>
             </div>
           </div>
@@ -32,22 +32,19 @@
             <div class="builder-columns div-12">
               <div class="builder-column column">
                 <div class="card-content-if-you-want-to-ad">
-                  Description: doc.desc <br> Rating: doc.rating
+                  Description: {{recent_review.description}} <br> Rating: {{recent_review.rating}}
                 </div>
               </div>
             </div>
           </div>
           
         </div>
-        {% endfor %}
         
       </section>
-      <div class="div-28">
-        <a class="btn">See All</a>
-      </div>
+      <a href="/cs/{{recent_review.username}}/browse/reviews" class="btn">See All</a>
     </div>
     <div class="div-28">
-      <a href="/home/customer/truck" class="btn">Browse Trucks</a>
+      <a href="/cs/{{recent_review.username}}/browse/trucks" class="btn">Browse Trucks</a>
     </div>
     <div class="div-29">
       <a href="{{ url_for('login')}}" class="btn">Logout</a>

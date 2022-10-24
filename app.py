@@ -84,8 +84,6 @@ def get_home():
     else:
         return redirect(url_for('cus_home'))
 
-@app.route('/home/<uid>')
-    
 
 
 # route to accept form submission and create a new post
@@ -156,101 +154,92 @@ def edit_post(mongoid):
 #     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
 
-@app.route('/home/customer/', methods=['GET', 'POST'])
-def customer_home():
-    docs = db.reviews.find({}).sort("created_at", -1) 
-    return render_template('customer_home.html', docs=docs)
-
-@app.route('/home/customer/truck', methods=['GET', 'POST'])
-def view_truck():
-    docs = db.trucks.find({}).sort("created_at", -1)
-    return render_template('view_trucks.html', docs=docs)
 
 ####################
 # login and register
 ####################
 
-@app.route('/sign-up/', methods=['POST', 'GET'])
-def sign_up():
-    if(request.method == 'GET'):
-        return render_template('sign_up.html')
-    else:
-        username = request.form['username']
-        password = request.form['password']
-        try:
-            is_owner = request.form['is_owner']
-        except:
-            is_owner = 'off'
+# @app.route('/sign-up/', methods=['POST', 'GET'])
+# def sign_up():
+#     if(request.method == 'GET'):
+#         return render_template('sign_up.html')
+#     else:
+#         username = request.form['username']
+#         password = request.form['password']
+#         try:
+#             is_owner = request.form['is_owner']
+#         except:
+#             is_owner = 'off'
 
-        if(is_owner == 'on'):
-            doc = {
-                'username': username,
-                'password': password,
-                'is_owner': is_owner,
-                'ftid': app.new_ftid
-            }
+#         if(is_owner == 'on'):
+#             doc = {
+#                 'username': username,
+#                 'password': password,
+#                 'is_owner': is_owner,
+#                 'ftid': app.new_ftid
+#             }
 
-            db.users.insert_one(doc)
+#             db.users.insert_one(doc)
 
-            return redirect(url_for('bus_sign_up'))
-        else:
-            doc = {
-                'username': username,
-                'password': password,
-                'is_owner': is_owner,
-                'csid': app.new_csid
-            }
+#             return redirect(url_for('bus_sign_up'))
+#         else:
+#             doc = {
+#                 'username': username,
+#                 'password': password,
+#                 'is_owner': is_owner,
+#                 'csid': app.new_csid
+#             }
 
-            db.users.insert_one(doc)
+#             db.users.insert_one(doc)
             
-            new_cs = {
-                'csid': app.new_csid
-            }
-            app.new_csid = app.new_csid+1
+#             new_cs = {
+#                 'csid': app.new_csid
+#             }
+#             app.new_csid = app.new_csid+1
 
-            db.cs.insert_one(new_cs)
+#             db.cs.insert_one(new_cs)
 
-            return redirect(url_for('login'))
+#             return redirect(url_for('login'))
 
-@app.route('/sign-up/business/', methods=['POST', 'GET'])
-def bus_sign_up():
-    if(request.method == 'GET'):
-        return render_template('sign_up_bus.html')
-    else:
-        name = request.form['name']
-        location = request.form['location']
-        open_time = request.form['open_time']
-        close_time = request.form['close_time']
+# @app.route('/sign-up/business/', methods=['POST', 'GET'])
+# def bus_sign_up():
+#     if(request.method == 'GET'):
+#         return render_template('sign_up_bus.html')
+#     else:
+#         name = request.form['name']
+#         location = request.form['location']
+#         open_time = request.form['open_time']
+#         close_time = request.form['close_time']
 
-        doc = {
-            'ftid': app.new_ftid,
-            'name': name,
-            'location': location,
-            'open_time': open_time,
-            'close_time': close_time,
-            'avg_rating': 0
-        }
+#         doc = {
+#             'ftid': app.new_ftid,
+#             'name': name,
+#             'location': location,
+#             'open_time': open_time,
+#             'close_time': close_time,
+#             'avg_rating': 0
+#         }
 
-        app.new_ftid = app.new_ftid+1
+#         app.new_ftid = app.new_ftid+1
 
-        db.ft.insert_one(doc)
+#         db.ft.insert_one(doc)
 
-        return redirect(url_for('login'))
+#         return redirect(url_for('login'))
 
 @app.route('/register/customer/', methods=['POST', 'GET'])
 def register_customer():
     if request.method == 'GET':
         return render_template('register_customer.html')
     else:
-        email = str(request.form.get('email')).replace(".", "_")
+        username = str(request.form.get('username')).replace(".", "_")
         password = request.form.get('password')
         name = request.form.get('name')
         phone_number = request.form.get('phone_number')
-        if db.customers.count({"email": email}) > 0:
+        if db.users.count({"username": username}) > 0:
             return render_template('register_customer.html', error='User already exists!')
 
-        elif len(email) >= 50 or len(email.split("@")) < 2:
-            return render_template('register_customer.html', error='Please enter a valid email!')
+        elif len(username) >= 50 or len(username.split("@")) < 2:
+            return render_template('register_customer.html', error='Please enter a valid username!')
 
         elif len(name) >= 50:
             return render_template('register_customer.html', error='Your name is too long!')
@@ -260,20 +249,21 @@ def register_customer():
 
         else:
             try:
-                int_phone_number = int(phone_number)
+                int(phone_number)
             except:
                 return render_template('register_customer.html', error='Please enter a real phone number!')
 
 
             # md5_pass = md5(password.encode('utf-8')).hexdigest()
             # new_id = mt.root_new_user_gen_id(user='root')
-            db.customers.insert({
-                "email": email,
+            db.users.insert({
+                "username": username,
                 "password": password,
                 "name": name,
                 "phone_number": phone_number,
+                "is_owner": 0,
                 });         
-            return home()
+            return redirect(url_for('cs_home', csid=username))
 
 
 @app.route('/register/owner/', methods=['POST', 'GET'])
@@ -281,18 +271,22 @@ def register_owner():
     if request.method == 'GET':
         return render_template('register_owner.html')
     else:
-        email = str(request.form.get('email')).replace(".", "_")
+        username = str(request.form.get('username')).replace(".", "_")
         password = request.form.get('password')
         name = request.form.get('name')
         phone_number = request.form.get('phone_number')
-        address = request.form.get('address')
+
+        ft_name = request.form.get('ft_name')
+        location = request.form.get('location')
+        open_time = request.form.get('open_time')
+        close_time = request.form.get('close_time')
 
 
-        if db.owners.count({"email": email}) > 0:
+        if db.users.count({"username": username}) > 0:
             return render_template('register_owner.html', error='User already exists!')
 
-        elif len(email) >= 50 or len(email.split("@")) < 2:
-            return render_template('register_owner.html', error='Please enter a valid email!')
+        elif len(username) >= 50 or len(username.split("@")) < 2:
+            return render_template('register_owner.html', error='Please enter a valid username!')
 
         elif len(name) >= 50:
             return render_template('register_owner.html', error='Your name is too long!')
@@ -302,22 +296,28 @@ def register_owner():
 
         else:
             try:
-                int_phone_number = int(phone_number)
+                int(phone_number)
             except:
                 return render_template('register_owner.html', error='Please enter a real phone number!')
 
 
             # md5_pass = md5(password.encode('utf-8')).hexdigest()
             # new_id = mt.root_new_user_gen_id(user='root')
-            db.owners.insert({
-                "email": email,
+            db.users.insert({
+                "username": username,
                 "password": password,
                 "name": name,
                 "phone_number": phone_number,
-                "address": address,
-
-                });         
-            return home()
+                "is_owner": 1,
+                });        
+            db.food_trucks.insert({
+                "ftid": username,
+                "name": ft_name,
+                "location": location,
+                "open_time": open_time,
+                "close_time": close_time,
+            }) 
+            return redirect(url_for('ft_home', ftid=username))
 
 
 # Login
@@ -328,44 +328,31 @@ def login():
         return render_template('login.html')
     else:
         if request.form.get('customer'):
-            return login_customer(email=request.form.get('email'), password=request.form.get('password'))
+            return login_customer(username=request.form.get('username'), password=request.form.get('password'))
         if request.form.get('owner'):
-            return login_owner(email=request.form.get('email'), password=request.form.get('password'))
+            return login_owner(username=request.form.get('username'), password=request.form.get('password'))
 
-def login_customer(email, password):
+def login_customer(username, password):
 
-    email = str(email).replace(".", "_")
-    print(db.customers.count({"email": email}))
-    print(db.customers.find({"email": email}).password)
-    if db.customers.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
-        return render_template('customer_home.html')
-
-
-    else:
-        # login unsuccessful
-        return render_template('customer_home.html', error='Wrong username or password!')
-
-
-def login_owner(email, password):
-    email = str(email).replace(".", "_")
-    if db.owners.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
-        return render_template('business_home.html')
+    username = str(username).replace(".", "_")
+    if db.users.count({"username": username}) > 0 and db.users.find_one({"username": username})["password"] == password:
+        return redirect(url_for('cs_home', csid=username))
 
 
     else:
         # login unsuccessful
         return render_template('login.html', error='Wrong username or password!')
 
-
-def login_owner(email, password):
-    email = str(email).replace(".", "_")
-    if db.owners.count({"email": email}) > 0 and db.customers.find({"email": email}).password == password:
-        return render_template('business_home.html')
+def login_owner(username, password):
+    username = str(username).replace(".", "_")
+    if db.users.count({"username": username}) > 0 and db.users.find_one({"username": username})["password"] == password:
+        return  redirect(url_for('ft_home', ftid=username))
 
 
     else:
         # login unsuccessful
         return render_template('login.html', error='Wrong username or password!')
+
 
 ##########################
 #      food trucks
@@ -409,7 +396,7 @@ def add_item(ftid):
 
         return redirect(url_for('view_bus_menu'))
 
-# how are menu items being stored / how are we grouping them so that they are attached to a given ft
+# how are menu items being stored / how are we grouping them so that the
 @app.route('/ft/<ftid>/menu/<mongoid>/edit/', methods=['GET', 'POST'])
 def edit_menu(mongoid):
     doc = db.menu.find_one({'_id': ObjectId(mongoid)})
@@ -487,50 +474,25 @@ def edit_info(ftid):
 #################################
 #           CUSTOMERS
 #################################
+# @app.route('/home/customer/', methods=['GET', 'POST'])
+# def customer_home():
+#     docs = db.reviews.find({}).sort("created_at", -1) 
+#     return render_template('customer_home.html', docs=docs)
 
-@app.route('/cs/<csid>/')
+
+@app.route('/cs/<csid>/home')
 def cs_home(csid):
-    docs = db.reviews.find({'csid': csid})
-    return render_template('customer_home.html', docs=docs)
+    recent_review = db.reviews.find_one({'username': csid})
+    print(recent_review)
+    return render_template('customer_home.html', recent_review=recent_review)
 
-@app.route('/cs/<csid>/<mongoid>/edit-review/', methods=['GET', 'POST'])
-def edit_review(mongoid):
-    doc = db.reviews.find({'_id': ObjectId(mongoid)})
+@app.route('/cs/<csid>/browse/reviews/')
+def view_reviews_by_user(csid):
+    docs = db.reviews.find({'username': csid})
+    return render_template('view_cus_reviews.html', docs=docs)
 
-    if(request.method == 'GET'):
-        return render_template('edit_review.html', doc=doc)
-    else:
-        title = doc['title']
-        description = doc['description']
-        rating = doc['rating']
-
-        if(request.form['title'] != None):
-            title = request.form['title']
-        if(request.form['description'] != None):
-            description = request.form['description']
-        if(request.form['rating'] != None):
-            rating = request.form['rating']
-
-        new_doc = {
-            'title': title,
-            'description': description,
-            'rating': rating
-        }
-
-        db.reviews.update_one(
-            {'_id': ObjectId(mongoid)},
-            {'$set': new_doc}
-        )
-
-        return redirect(url_for('cs_home'))
-
-@app.route('/cs/<csid>/<mongoid>/delete-review/')
-def delete_review(mongoid):
-    db.reviews.delete_one({'_id': ObjectId(mongoid)})
-    return redirect(url_for('cs_home'))
-
-@app.route('/cs/browse/', methods=['GET', 'POST'])
-def browse_trucks():
+@app.route('/cs/<csid>/browse/trucks/', methods=['GET', 'POST'])
+def browse_trucks(csid):
     if(request.method == 'POST'):
         if(request.form['search_name'] != None):
             docs = db.ft.find({'name': request.form['search_name']})
@@ -571,26 +533,95 @@ def browse_trucks():
         return render_template('view_trucks', docs=docs)
     else:
         docs = db.ft.find()
-        return render_template('view_trucks.html', docs=docs)
+        # docs["ft"] = db.ft.find()
+        # docs["csid"] = csid
+        return render_template('view_trucks.html', docs=docs, csid=csid)
+
+@app.route('/cs/<csid>/add-review/')
+def add_review(mongoid):
+    title = doc['title']
+    description = doc['description']
+    rating = doc['rating']
+
+    if(request.form['title'] != None):
+        title = request.form['title']
+    if(request.form['description'] != None):
+        description = request.form['description']
+    if(request.form['rating'] != None):
+        rating = request.form['rating']
+
+    new_doc = {
+        'title': title,
+        'description': description,
+        'rating': rating
+    }
+
+    db.reviews.update_one(
+        {'_id': ObjectId(mongoid)},
+        {'$set': new_doc}
+    )
+
+    return redirect(url_for('cs_home'))
+
+@app.route('/cs/<csid>/<mongoid>/edit-review/', methods=['GET', 'POST'])
+def edit_review(mongoid):
+    doc = db.reviews.find({'_id': ObjectId(mongoid)})
+
+    if(request.method == 'GET'):
+        return render_template('edit_review.html', doc=doc)
+    else:
+        title = doc['title']
+        description = doc['description']
+        rating = doc['rating']
+
+        if(request.form['title'] != None):
+            title = request.form['title']
+        if(request.form['description'] != None):
+            description = request.form['description']
+        if(request.form['rating'] != None):
+            rating = request.form['rating']
+
+        new_doc = {
+            'title': title,
+            'description': description,
+            'rating': rating
+        }
+
+        db.reviews.update_one(
+            {'_id': ObjectId(mongoid)},
+            {'$set': new_doc}
+        )
+
+        return redirect(url_for('cs_home'))
+
+@app.route('/cs/<csid>/<mongoid>/delete-review/')
+def delete_review(mongoid):
+    db.reviews.delete_one({'_id': ObjectId(mongoid)})
+    return redirect(url_for('cs_home'))
+
 
 @app.route('/cs/<csid>/browse/<ftid>/menu/')
-def view_menu(ftid):
+def view_menu(csid, ftid):
+    ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.menu.find({'ftid': ftid})
-    return render_template('view_cus_menu.html', ft_name=ft['name'], docs=docs)
+    return render_template('view_cus_menu.html', ft_name=ft['name'], docs=docs, csid=csid)
+    # return render_template('view_cus_menu.html')
 
 @app.route('/cs/<csid>/browse/<ftid>/reviews/')
-def view_reviews(ftid):
+def view_reviews(csid, ftid):
+    ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.reviews.find({'ftid': ftid})
-    return render_template('view_cus_reviews.html', ft_name=ft['name'], docs=docs)
+    return render_template('view_cus_reviews.html', ft_name=ft['name'], docs=docs, csid=csid)
 
 @app.route('/cs/<csid>/browse/<ftid>/leave-review/', methods=['GET', 'POST'])
 def leave_review(ftid, csid):
+    ftid = int(ftid)    
     ft = db.ft.find_one({'ftid': ftid})
 
     if(request.method == 'GET'):
-        return render_template('add_review.html', ft_name=ft['name'])
+        return render_template('add_review.html', ft_name=ft['name'], ftid=ftid, csid=csid)
     else:
         title = request.form['title']
         description = request.form['description']
@@ -598,7 +629,7 @@ def leave_review(ftid, csid):
 
         doc = {
             'csid': csid,
-            'ftid': ft['ftid'],
+            'ftid': ftid,
             'b_name': ft['name'],
             'title': title,
             'description': description,
@@ -610,37 +641,9 @@ def leave_review(ftid, csid):
         return redirect(url_for('browse_trucks'))
 
 
-#Adding menu items for restaurant owners
-@app.route('/ft/<ftid>/add',methods=['POST'])
-def menu_add(ftid):
-    name = request.form['fname']
-    desc = request.form['fdesc']
-    price = request.form['fprice']
-
-    doc = {
-        # "_id": ObjectId(mongoid), 
-        "name": name, 
-        "desc": desc, 
-        "price": price,
-        "is_item": 1,
-        "is_hrs": 0,
-        "is_rev": 0,
-        "is_loc": 0
-    }
-
-    # db.ftid.insert_one(doc)
-    return redirect
-
-#deleting menu items
-@app.route('/ft/<ftid>/delete/<itemid>')
-def delete_item(itemid):   
-    db.ftid.delete_one({"_id": ObjectId(itemid)})
-    return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
-
-#updating menu items
-@app.route('/ft/<ftid>/edit/<itemid>', methods=['POST'])
-def edit_item(itemid):
- 
+# #Adding menu items for restaurant owners
+# @app.route('/ft/<ftid>/add',methods=['POST'])
+# def menu_add(ftid):
 #     name = request.form['fname']
 #     desc = request.form['fdesc']
 #     price = request.form['fprice']
@@ -656,39 +659,67 @@ def edit_item(itemid):
 #         "is_loc": 0
 #     }
 
-#     db.ftid.update_one(
-#         {"_id": ObjectId(itemid)}, # match criteria
-#         { "$set": doc }
-#     )
+#     # db.ftid.insert_one(doc)
+#     return redirect
 
-    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+# #deleting menu items
+# @app.route('/ft/<ftid>/delete/<itemid>')
+# def delete_item(itemid):   
+#     db.ftid.delete_one({"_id": ObjectId(itemid)})
+#     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
 
-#Changing availability
-
-@app.route('/ft/<ftid>/update/<avid>', methods=['POST'])
-def update_avai(avid):
+# #updating menu items
+# @app.route('/ft/<ftid>/edit/<itemid>', methods=['POST'])
+# def edit_item(itemid):
  
-#     from_x = request.form['from']
-#     to_x = request.form['to']
-    
-#     #maybe add error handling here
-    
-#     doc = {
-#         # "_id": ObjectId(mongoid), 
-#         "from": from_x, 
-#         "to": to_x,
-#         "is_item": 0,
-#         "is_hrs": 1,
-#         "is_rev": 0,
-#         "is_loc": 0
-#     }
+# #     name = request.form['fname']
+# #     desc = request.form['fdesc']
+# #     price = request.form['fprice']
 
-    # db.ftid.update_one(
-    #     {"_id": ObjectId(avid)}, # match criteria
-    #     { "$set": doc }
-    # )
+# #     doc = {
+# #         # "_id": ObjectId(mongoid), 
+# #         "name": name, 
+# #         "desc": desc, 
+# #         "price": price,
+# #         "is_item": 1,
+# #         "is_hrs": 0,
+# #         "is_rev": 0,
+# #         "is_loc": 0
+# #     }
 
-    return home() # tell the browser to make a request for the / route (the home function)
+# #     db.ftid.update_one(
+# #         {"_id": ObjectId(itemid)}, # match criteria
+# #         { "$set": doc }
+# #     )
+
+#     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+
+# #Changing availability
+
+# @app.route('/ft/<ftid>/update/<avid>', methods=['POST'])
+# def update_avai(avid):
+ 
+# #     from_x = request.form['from']
+# #     to_x = request.form['to']
+    
+# #     #maybe add error handling here
+    
+# #     doc = {
+# #         # "_id": ObjectId(mongoid), 
+# #         "from": from_x, 
+# #         "to": to_x,
+# #         "is_item": 0,
+# #         "is_hrs": 1,
+# #         "is_rev": 0,
+# #         "is_loc": 0
+# #     }
+
+#     # db.ftid.update_one(
+#     #     {"_id": ObjectId(avid)}, # match criteria
+#     #     { "$set": doc }
+#     # )
+
+#     return home() # tell the browser to make a request for the / route (the home function)
 
 
 #Adding photos
@@ -696,12 +727,12 @@ def update_avai(avid):
 
 #User browsing restaurants
 
-@app.route('/u/<uid>/<ftid>')
-def browse_restaurants():
-    items = db.ftid.find({}) # sort in descending order of created_at timestamp
-    revs= db.ftid.find({})
-    open_hrs = db.v
-    return render_template('food_truck.html', items=items, revs=revs, ) # render the hone template
+# @app.route('/u/<uid>/<ftid>')
+# def browse_restaurants():
+#     items = db.ftid.find({}) # sort in descending order of created_at timestamp
+#     revs= db.ftid.find({})
+#     open_hrs = db.v
+#     return render_template('food_truck.html', items=items, revs=revs, ) # render the hone template
 
 
 
