@@ -361,13 +361,14 @@ def login_owner(username, password):
 #home screen for food truck owners
 @app.route('/ft/<ftid>/')
 def ft_home(ftid):
-    doc = db.ft.find_one({"ftid": ftid}) # sort in descending order of created_at timestamp
+    doc = db.ft.find_one({"ftid": ftid}) #find details of the food truck
     return render_template('business_home.html', doc=doc) # render the hone template
 
 #viewing menu for a food truck
 @app.route('/ft/<ftid>/menu/')
 def view_bus_menu(ftid):
     docs = db.menu.find({'ftid': ftid})
+    print(ftid,docs)
     return render_template('view_bus_menu.html', docs=docs)
 
 #viewing reviews for a food truck
