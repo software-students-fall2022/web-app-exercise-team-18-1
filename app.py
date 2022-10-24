@@ -364,15 +364,15 @@ def login_owner(username, password):
 #home screen for food truck owners
 @app.route('/ft/<ftid>/')
 def ft_home(ftid):
-    doc = db.ft.find_one({"ftid": ftid}) #find details of the food truck
-    return render_template('business_home.html', doc=doc) # render the hone template
+    doc = db.food_trucks.find_one({"ftid": ftid}) #find details of the food truck
+    return render_template('business_home.html', doc=doc, ftid=ftid) # render the hone template
 
 #viewing menu for a food truck
 @app.route('/ft/<ftid>/menu/')
 def view_bus_menu(ftid):
     docs = db.menu.find({'ftid': ftid})
     print(ftid,docs)
-    return render_template('view_bus_menu.html', docs=docs)
+    return render_template('view_bus_menu.html', docs=docs, ftid=ftid)
 
 #viewing reviews for a food truck
 @app.route('/ft/<ftid>/reviews/')
@@ -401,7 +401,7 @@ def add_item(ftid):
 
         db.menu.insert_one(doc)
 
-        return redirect(url_for('view_bus_menu'))
+        return redirect(url_for('view_bus_menu',ftid=ftid))
 
 @app.route('/ft/<ftid>/menu/<mongoid>/edit/', methods=['GET', 'POST'])
 def edit_menu(ftid,name):
@@ -436,22 +436,22 @@ def edit_menu(ftid,name):
             {'$set': new_doc}
         )
 
-        return redirect(url_for('view_bus_menu'))
+        return redirect(url_for('view_bus_menu',ftid=ftid))
 
 @app.route('/ft/<ftid>/menu/delete')
 def delete_menu_item(ftid,name):
     db.menu.delete_one({'ftid': ftid, 'name':name})
-    return redirect(url_for('view_bus_menu'))
+    return redirect(url_for('view_bus_menu',ftid=ftid))
         
 
 @app.route('/ft/<ftid>/edit/', methods=['GET', 'POST'])
 def edit_info(ftid):
-    doc = db.ft.find_one({"ftid": ftid})
+    doc = db.food_trucks.find_one({"ftid": ftid})
 
     if(request.method == 'GET'):
-        return render_template('edit_info.html', doc=doc)
+        return render_template('edit_info.html', doc=doc, ftid=ftid)
     else:
-        orig_doc = db.ft.find_one({"ftid": ftid})
+        orig_doc = db.food_trucks.find_one({"ftid": ftid})
 
         location = orig_doc['location']
         open_time = orig_doc['open_time']
@@ -470,12 +470,12 @@ def edit_info(ftid):
             'close_time': close_time
         }
 
-        db.ft.update_one(
+        db.food_trucks.update_one(
             {'ftid': ftid},
             {'$set': new_doc}
         )
 
-        return redirect(url_for('ft_home'))
+        return redirect(url_for('ft_home', ftid=ftid))
 
 #################################
 #           CUSTOMERS
