@@ -51,13 +51,16 @@ except Exception as e:
 # set up the routes
 
 # route for the home page
-@app.route('/')
-def home():
+@app.route('/<uid>/')
+def home(uid):
     """
     Route for the home page
     """
-    docs = db.exampleapp.find({}).sort("created_at", -1) # sort in descending order of created_at timestamp
-    return redirect(url_for('login')) # render the hone template
+    doc = db.users.find_one({'username': uid}) # sort in descending order of created_at timestamp
+    if(doc['is_owner'] == 1):
+        return redirect(url_for('cs_home', csid=uid))
+    else:
+        return redirect(url_for('ft_home', ftid=uid)) # render the hone template
 
 # @app.route('/')
 # def home():
@@ -67,81 +70,81 @@ def home():
 # def login():
 #     return render_template('login.html')
 
-@app.route('/home', methods=['POST'])
-def get_home():
-    username = request.form['username']
-    password = request.form['password']
+# @app.route('/home/', methods=['POST'])
+# def get_home():
+#     username = request.form['username']
+#     password = request.form['password']
 
-    user = db.users.find_one({
-        "username": username,
-        "password": password
-    })
+#     user = db.users.find_one({
+#         "username": username,
+#         "password": password
+#     })
 
-    if(user == None):
-        return redirect(url_for('login'))
-    elif(user['is_business'] == 1):
-        return redirect(url_for('bus_home'))
-    else:
-        return redirect(url_for('cus_home'))
+#     if(user == None):
+#         return redirect(url_for('login'))
+#     elif(user['is_business'] == 1):
+#         return redirect(url_for('bus_home'))
+#     else:
+#         return redirect(url_for('cus_home'))
 
 
 
 # route to accept form submission and create a new post
-@app.route('/create', methods=['POST'])
-def create_post():
-    """
-    Route for POST requests to the create page.
-    Accepts the form submission data for a new document and saves the document to the database.
-    """
-    name = request.form['fname']
-    message = request.form['fmessage']
+# @app.route('/create', methods=['POST'])
+# def create_post():
+#     """
+#     Route for POST requests to the create page.
+#     Accepts the form submission data for a new document and saves the document to the database.
+#     """
+#     name = request.form['fname']
+#     message = request.form['fmessage']
 
 
-    # create a new document with the data the user entered
-    doc = {
-        "name": name,
-        "message": message, 
-        "created_at": datetime.datetime.utcnow()
-    }
-    db.exampleapp.insert_one(doc) # insert a new document
+#     # create a new document with the data the user entered
+#     doc = {
+#         "name": name,
+#         "message": message, 
+#         "created_at": datetime.datetime.utcnow()
+#     }
+#     db.exampleapp.insert_one(doc) # insert a new document
 
-    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+#     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 
 # route to view the edit form for an existing post
-@app.route('/edit/<mongoid>')
-def edit(mongoid):
-    """
-    Route for GET requests to the edit page.
-    Displays a form users can fill out to edit an existing record.
-    """
-    doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
-    return render_template('edit.html', mongoid=mongoid, doc=doc) # render the edit template
+# @app.route('/edit/<mongoid>')
+# def edit(mongoid):
+#     """
+#     Route for GET requests to the edit page.
+#     Displays a form users can fill out to edit an existing record.
+#     """
+#     doc = db.exampleapp.find_one({"_id": ObjectId(mongoid)})
+#     return render_template('edit.html', mongoid=mongoid, doc=doc) # render the edit template
 
 
 # route to accept the form submission to delete an existing post
-@app.route('/edit/<mongoid>', methods=['POST'])
-def edit_post(mongoid):
-    """
-    Route for POST requests to the edit page.
-    Accepts the form submission data for the specified document and updates the document in the database.
-    """
-    name = request.form['fname']
-    message = request.form['fmessage']
+# @app.route('/edit/<mongoid>', methods=['POST'])
+# def edit_post(mongoid):
+#     """
+#     Route for POST requests to the edit page.
+#     Accepts the form submission data for the specified document and updates the document in the database.
+#     """
+#     name = request.form['fname']
+#     message = request.form['fmessage']
 
-    doc = {
-        # "_id": ObjectId(mongoid), 
-        "name": name, 
-        "message": message, 
-        "created_at": datetime.datetime.utcnow()
-    }
+#     doc = {
+#         # "_id": ObjectId(mongoid), 
+#         "name": name, 
+#         "message": message, 
+#         "created_at": datetime.datetime.utcnow()
+#     }
 
-    db.exampleapp.update_one(
-        {"_id": ObjectId(mongoid)}, # match criteria
-        { "$set": doc }
-    )
+#     db.exampleapp.update_one(
+#         {"_id": ObjectId(mongoid)}, # match criteria
+#         { "$set": doc }
+#     )
 
-    return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
+#     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
 
 # route to delete a specific post
 # @app.route('/delete/<mongoid>')
@@ -308,8 +311,8 @@ def register_owner():
                 "password": password,
                 "name": name,
                 "phone_number": phone_number,
-                "is_owner": 1,
-                });        
+                "is_owner": 1
+            })
             db.food_trucks.insert({
                 "ftid": username,
                 "name": ft_name,
@@ -396,7 +399,6 @@ def add_item(ftid):
 
         return redirect(url_for('view_bus_menu'))
 
-# how are menu items being stored / how are we grouping them so that the
 @app.route('/ft/<ftid>/menu/<mongoid>/edit/', methods=['GET', 'POST'])
 def edit_menu(mongoid):
     doc = db.menu.find_one({'_id': ObjectId(mongoid)})
@@ -479,28 +481,22 @@ def edit_info(ftid):
 #     docs = db.reviews.find({}).sort("created_at", -1) 
 #     return render_template('customer_home.html', docs=docs)
 
-
 @app.route('/cs/<csid>/home')
 def cs_home(csid):
-    recent_review = db.reviews.find_one({'username': csid})
-    print(recent_review)
-    return render_template('customer_home.html', recent_review=recent_review)
+    recent_review = db.reviews.find_one({'csid': csid})
+    #print(recent_review)
+    return render_template('customer_home.html', recent_review=recent_review, csid=csid)
 
 @app.route('/cs/<csid>/browse/reviews/')
 def view_reviews_by_user(csid):
-    docs = db.reviews.find({'username': csid})
+    docs = db.reviews.find({'csid': csid})
     return render_template('view_cus_reviews.html', docs=docs)
 
 @app.route('/cs/<csid>/browse/trucks/', methods=['GET', 'POST'])
 def browse_trucks(csid):
     if(request.method == 'POST'):
-        if(request.form['search_name'] != None):
-            docs = db.ft.find({'name': request.form['search_name']})
-        else:
-            docs = db.ft.find()
-
         try:
-            sort_highest = request.form['highest_rate']
+            sort_highest = request.form['highest_rated']
         except:
             sort_highest = 'off'
 
@@ -510,58 +506,86 @@ def browse_trucks(csid):
             curr_open = 'off'
 
         if(sort_highest == 'on'):
-            docs = docs.sort('avg_review', -1)
-        
-        if(curr_open == 'on'):
-            curr_time = datetime.now()
-            time_parse = curr_time.strftime('%H:%M:%S')
+            if(curr_open == 'on'):
+                curr_time = datetime.datetime.now()
+                time_parse = curr_time.strftime('%H:%M:%S')
 
-            if(request.form['search_name'] != None):
-                query = {
-                    'name': request.form['search_name'],
-                    'open_time': {'$lt': time_parse},
-                    'close_time': {'$gt': time_parse}
-                }
+                if(request.form['search_name'] != ''):
+                    query = {
+                        'name': request.form['search_name'],
+                        'open_time': {'$lt': time_parse},
+                        'close_time': {'$gt': time_parse}
+                    }
+                else:
+                    query = {
+                        'open_time': {'$lt': time_parse},
+                        'close_time': {'$gt': time_parse}
+                    }
+
+                docs = db.ft.find(query).sort('avg_rating', -1)
             else:
-                query = {
-                    'open_time': {'$lt': time_parse},
-                    'close_time': {'$gt': time_parse}
-                }
+                if(request.form['search_name'] != ''):
+                    docs = db.ft.find({'name': request.form['search_name']}).sort('avg_rating', -1)
+                else:
+                    docs = db.ft.find().sort('avg_rating', -1)
+            
+            return render_template('view_trucks.html', docs=docs, csid=csid)
+        else:
+            if(curr_open == 'on'):
+                curr_time = datetime.datetime.now()
+                time_parse = curr_time.strftime('%H:%M:%S')
 
-            docs = db.ft.find(query)
+                if(request.form['search_name'] != ''):
+                    query = {
+                        'name': request.form['search_name'],
+                        'open_time': {'$lt': time_parse},
+                        'close_time': {'$gt': time_parse}
+                    }
+                else:
+                    query = {
+                        'open_time': {'$lt': time_parse},
+                        'close_time': {'$gt': time_parse}
+                    }
 
-        return render_template('view_trucks', docs=docs)
+                docs = db.ft.find(query)
+            else:
+                if(request.form['search_name'] != ''):
+                    docs = db.ft.find({'name': request.form['search_name']})
+                else:
+                    docs = db.ft.find()
+            
+            return render_template('view_trucks.html', docs=docs, csid=csid)
     else:
         docs = db.ft.find()
         # docs["ft"] = db.ft.find()
         # docs["csid"] = csid
         return render_template('view_trucks.html', docs=docs, csid=csid)
 
-@app.route('/cs/<csid>/add-review/')
-def add_review(mongoid):
-    title = doc['title']
-    description = doc['description']
-    rating = doc['rating']
+# @app.route('/cs/<csid>/add-review/')
+# def add_review(mongoid):
+#     title = doc['title']
+#     description = doc['description']
+#     rating = doc['rating']
 
-    if(request.form['title'] != None):
-        title = request.form['title']
-    if(request.form['description'] != None):
-        description = request.form['description']
-    if(request.form['rating'] != None):
-        rating = request.form['rating']
+#     if(request.form['title'] != None):
+#         title = request.form['title']
+#     if(request.form['description'] != None):
+#         description = request.form['description']
+#     if(request.form['rating'] != None):
+#         rating = request.form['rating']
 
-    new_doc = {
-        'title': title,
-        'description': description,
-        'rating': rating
-    }
+#     new_doc = {
+#         'title': title,
+#         'description': description,
+#         'rating': rating
+#     }
 
-    db.reviews.update_one(
-        {'_id': ObjectId(mongoid)},
-        {'$set': new_doc}
-    )
+#     db.reviews.update_one(
+#         {'_id': ObjectId(mongoid)},
+#         {'$set': new_doc}
+#     )
 
-    return redirect(url_for('cs_home'))
+#     return redirect(url_for('cs_home'))
 
 @app.route('/cs/<csid>/<mongoid>/edit-review/', methods=['GET', 'POST'])
 def edit_review(mongoid):
@@ -638,7 +662,7 @@ def leave_review(ftid, csid):
 
         db.reviews.insert_one(doc)
 
-        return redirect(url_for('browse_trucks'))
+        return redirect(url_for('browse_trucks', csid=csid))
 
 
 # #Adding menu items for restaurant owners
