@@ -280,7 +280,7 @@ def register_owner():
         phone_number = request.form.get('phone_number')
 
         ft_name = request.form.get('ft_name')
-        location = request.form.get('location')
+        location = request.form.get("location")
         open_time = request.form.get('open_time')
         close_time = request.form.get('close_time')
         count = db.ft.count({})
@@ -651,7 +651,6 @@ def delete_review(csid, mongoid):
 
 @app.route('/cs/<csid>/browse/<ftid>/menu/')
 def view_menu(csid, ftid):
-    ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.menu.find({'ftid': ftid})
     return render_template('view_cus_menu.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
@@ -659,14 +658,12 @@ def view_menu(csid, ftid):
 
 @app.route('/cs/<csid>/browse/<ftid>/reviews/')
 def view_reviews(csid, ftid):
-    ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.reviews.find({'ftid': ftid})
     return render_template('view_cus_reviews_by_truck.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/<ftid>/leave-review/', methods=['GET', 'POST'])
-def leave_review(ftid, csid):
-    ftid = int(ftid)    
+def leave_review(ftid, csid):    
     ft = db.ft.find_one({'ftid': ftid})
 
     if(request.method == 'GET'):
