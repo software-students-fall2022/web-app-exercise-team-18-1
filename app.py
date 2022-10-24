@@ -54,7 +54,7 @@ except Exception as e:
 @app.route('/<uid>/')
 def home(uid):
     """
-    Route for the home page
+    Route for the home page after login
     """
     doc = db.users.find_one({'username': uid}) # sort in descending order of created_at timestamp
     if(doc['is_owner'] == 0):
@@ -62,9 +62,9 @@ def home(uid):
     else:
         return redirect(url_for('ft_home', ftid=uid, uid=uid)) # render the hone template
 
-# @app.route('/')
-# def home():
-#     return redirect(url_for('login'))
+@app.route('/')
+def index():
+    return redirect(url_for('login'))
 
 # @app.route('/login')
 # def login():
@@ -504,13 +504,13 @@ def edit_info(ftid):
 
 @app.route('/cs/<csid>/home')
 def cs_home(csid):
-    recent_review = db.reviews.find_one({'csid': csid})
-    #print(recent_review)
+    recent_review = db.reviews.find_one({'username': csid})
+    print(recent_review, csid)
     return render_template('customer_home.html', recent_review=recent_review, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/reviews/')
 def view_reviews_by_user(csid):
-    docs = db.reviews.find({'csid': csid})
+    docs = db.reviews.find({'username': csid})
     return render_template('view_cus_reviews.html', docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/trucks/', methods=['GET', 'POST'])
@@ -661,7 +661,7 @@ def view_reviews(csid, ftid):
     ftid = int(ftid)
     ft = db.ft.find_one({'ftid': ftid})
     docs = db.reviews.find({'ftid': ftid})
-    return render_template('view_cus_reviews.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
+    return render_template('view_cus_reviews_by_truck.html', ft_name=ft['name'], docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/<ftid>/leave-review/', methods=['GET', 'POST'])
 def leave_review(ftid, csid):
