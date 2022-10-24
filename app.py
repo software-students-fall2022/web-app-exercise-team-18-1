@@ -685,7 +685,14 @@ def leave_review(ftid, csid):
         }
 
         db.reviews.insert_one(doc)
-
+        revs=db.reviews.find({"ftid":ftid})
+        sumx=0
+        num=0
+        for r in revs:
+            sumx+=int(r['rating'])
+            num+=1
+        avg= float(sumx/num)
+        db.ft.update_one({"ftid":ftid},{'$set':{'avg_rating': avg}})
         return redirect(url_for('browse_trucks', csid=csid, uid=csid))
 
 
