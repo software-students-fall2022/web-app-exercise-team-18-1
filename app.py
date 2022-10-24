@@ -533,7 +533,7 @@ def browse_trucks(csid):
 
                 if(request.form['search_name'] != ''):
                     query = {
-                        'name': request.form['search_name'],
+                        'name': { '$regex' : request.form['search_name'], '$options' : 'i' },
                         'open_time': {'$lt': time_parse},
                         'close_time': {'$gt': time_parse}
                     }
@@ -546,7 +546,7 @@ def browse_trucks(csid):
                 docs = db.ft.find(query).sort('avg_rating', -1)
             else:
                 if(request.form['search_name'] != ''):
-                    docs = db.ft.find({'name': request.form['search_name']}).sort('avg_rating', -1)
+                    docs = db.ft.find({'name': { '$regex' : request.form['search_name'], '$options' : 'i' }}).sort('avg_rating', -1)
                 else:
                     docs = db.ft.find().sort('avg_rating', -1)
             
@@ -558,7 +558,7 @@ def browse_trucks(csid):
 
                 if(request.form['search_name'] != ''):
                     query = {
-                        'name': request.form['search_name'],
+                        'name': { '$regex' : request.form['search_name'], '$options' : 'i' },
                         'open_time': {'$lt': time_parse},
                         'close_time': {'$gt': time_parse}
                     }
@@ -571,7 +571,7 @@ def browse_trucks(csid):
                 docs = db.ft.find(query)
             else:
                 if(request.form['search_name'] != ''):
-                    docs = db.ft.find({'name': request.form['search_name']})
+                    docs = db.ft.find({'name': { '$regex' : request.form['search_name'], '$options' : 'i' }})
                 else:
                     docs = db.ft.find()
             
