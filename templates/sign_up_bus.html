@@ -1,62 +1,50 @@
 <div class="div">
-    <div class="div-2">Add Menu Item</div>
+    <div class="div-2">Welcome!</div>
     <br>
-    <form method="post" action="{{ url_for(add_item, ftid=ftid) }}">
+    <form method="post" action="{{ url_for('bus_sign_up') }}">
       <div class="div-3">
-        <div class="div-4">Item Name:</div>
+        <div class="div-4">Truck Name:</div>
         <div class="div-5">
           <div class="builder-columns div-6">
             <div class="builder-column column">
               <div class="div-7">
-                  <input type="text" name="name"/>
+                  <input type="text" name="name" required/>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="div-8">
-        <div class="div-9">Item Description:</div>
+        <div class="div-9">Truck Location:</div>
         <div class="div-10">
           <div class="builder-columns div-11">
             <div class="builder-column column">
               <div class="div-12">
-                  <input type="text" name="description"/>
+                  <input type="text" name="location" required/>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="div-13">
-        <div class="div-14">Item Price:</div>
+        <div class="div-14">Open Time:</div>
         <div class="div-15">
           <div class="builder-columns div-16">
             <div class="builder-column column">
               <div class="div-17">
-                  <input type="text" name="price"/>
+                  <input type="time" name="open_time" required/>
               </div>
             </div>
           </div>
         </div>
       </div>
       <div class="div-18">
-        <div class="div-19">Item Calorie Count:</div>
+        <div class="div-19">Close Time:</div>
         <div class="div-20">
           <div class="builder-columns div-21">
             <div class="builder-column column">
               <div class="div-22">
-                  <input type="text" name="calories"/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="div-23">
-        <div class="div-24">Item Category:</div>
-        <div class="div-25">
-          <div class="builder-columns div-26">
-            <div class="builder-column column">
-              <div class="div-27">
-                  <input type="text" name="category"/>
+                  <input type="time" name="close_time" required/>
               </div>
             </div>
           </div>
@@ -64,7 +52,7 @@
       </div>
         <div class="div-28">
           <input type="submit" name="submit-btn" value="Submit"/>
-      </div>
+        </div>
     </form>
   </div>
   <style>

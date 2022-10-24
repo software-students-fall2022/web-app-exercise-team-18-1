@@ -1,0 +1,37 @@
+users:
+    _id
+    username
+    password
+    is_owner
+    ?csid
+    ?ftid
+
+ft:
+    _id
+    ftid
+    name
+    location
+    open_time
+    close_time
+    avg_rating
+
+cs:
+    _id
+    csid
+
+menu:
+    _id
+    ftid
+    name
+    description
+    price
+    calories
+
+reviews:
+    _id
+    csid
+    ftid
+    b_name
+    title
+    description
+    rating

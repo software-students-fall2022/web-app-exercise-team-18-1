@@ -1,96 +1,26 @@
-<div class="div">
-  <div class="div-2">Your Business</div>
-  <div class="div-3">PICTURE HERE</div>
-  <div class="div-4">
-    <div class="div-5">
-      <div class="builder-columns div-6">
-        <div class="builder-column column">
-          <div class="div-7">Your Information</div>
-        </div>
-      </div>
-    </div>
-    <div class="div-8">
-      <div class="builder-columns div-9">
-        <div class="builder-column column">
-          <div class="card-content-if-you-want-to-ad">
-            Location: {{doc.location}} <br> Hours: {{doc.open_time}} to {{doc.close_time}}
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="div-10">
-      <div class="builder-columns div-11">
-        <div class="builder-column column-2">
-        	<form method="get" action="{{ url_for('edit_info', ftid=ftid) }}">
-              <div class="div-12">
-                  <input type="submit" name="edit-menu-btn" value="Edit"/>
-              </div>
-            </form>
-        </div>
-        <div class="builder-column column-3">
-        	<form method="get" action="{{ url_for('view_bus_menu', ftid=ftid) }}">
-              <div class="div-13">
-                  <input type="submit" name="view-bus-menu-btn" value="View Menu"/>
-              </div>
-            </form>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="div-14">
-    <div class="div-15">
-      <div class="builder-columns div-16">
-        <div class="builder-column column">
-          <div class="div-17">
-          	Your Reviews
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="div-18">
-      <div class="builder-columns div-19">
-        <div class="builder-column column">
-          <div class="card-content-if-you-want-to-ad">Average Rating: {{doc.avg_review}}</div>
-        </div>
-      </div>
-    </div>
-    <div class="div-20">
-      <div class="builder-columns div-21">
-        <div class="builder-column column">
-          <div class="div-22">
-          	<form method="get" action="{{ url_for('view_bus_rev', ftid=ftid) }}">
-            	<input type="submit" name="view-bus-rev-btn" value="View Reviews"/>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="div-24">
-  	<a href="/login">Logout</a>
-  </div>
-</div>
-<style>
+body{
+    margin: 0px;
+  }
   .div {
     display: flex;
     flex-direction: column;
-    max-width: 430px;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
-    padding-top: 55px;
     padding-right: 36px;
-    padding-bottom: 55px;
+    padding-bottom: 68px;
     padding-left: 36px;
     background-color: rgba(255, 255, 255, 1);
+
   }
   .div-2 {
-    max-width: 279px;
     color: rgba(0, 0, 0, 1);
     font-size: 36px;
     line-height: 16px;
     letter-spacing: 0%;
     text-align: center;
-    font-family: "Roboto", sans-serif;
+    font-family: sans-serif;
+    justify-content: center;
+
   }
   .div-3 {
     display: flex;
@@ -98,31 +28,15 @@
     max-width: 326px;
     justify-content: center;
     align-items: center;
-    margin-top: 9px;
     padding-top: 8px;
     padding-right: 8px;
     padding-bottom: 8px;
     padding-left: 8px;
-    background-color: rgba(31, 31, 31, 1);
   }
   .div-4 {
     display: flex;
     flex-direction: column;
     max-width: 358px;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 9px;
-    border-color: rgba(222, 222, 222, 1);
-    border-width: 1px;
-    border-style: solid;
-    background-color: rgba(255, 255, 255, 1);
-  }
-  .div-5 {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    align-self: stretch;
-    width: 358px;
     padding-top: 24px;
     padding-right: 24px;
     padding-bottom: 24px;
@@ -131,11 +45,11 @@
     border-width: 1px;
     border-style: solid;
   }
-  .div-6 {
+  .div-5 {
     display: flex;
   }
   @media (max-width: 999px) {
-    .div-6 {
+    .div-5 {
       flex-direction: column;
       align-items: stretch;
     }
@@ -152,13 +66,24 @@
       width: 100%;
     }
   }
-  .div-7 {
+  .div-6 {
     max-width: 310px;
     color: rgba(31, 31, 31, 1);
     font-size: 18px;
     letter-spacing: 0%;
     text-align: left;
     font-family: "Roboto", sans-serif;
+  }
+  .div-7 {
+    display: flex;
+    flex-direction: column;
+    max-width: 358px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-color: rgba(222, 222, 222, 1);
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 1);
   }
   .div-8 {
     display: flex;
@@ -170,6 +95,9 @@
     padding-right: 24px;
     padding-bottom: 24px;
     padding-left: 24px;
+    border-color: rgba(234, 234, 234, 1);
+    border-width: 1px;
+    border-style: solid;
   }
   .div-9 {
     display: flex;
@@ -180,16 +108,44 @@
       align-items: stretch;
     }
   }
-  .card-content-if-you-want-to-ad {
+  .div-10 {
     max-width: 310px;
     color: rgba(31, 31, 31, 1);
+    font-size: 18px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-11 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-12 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-12 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .card-content-if-you-want-to-ad {
+    max-width: 310px;
+    color: rgb(131, 129, 129);
     font-size: 16px;
     line-height: 20px;
     letter-spacing: 0%;
     text-align: left;
     font-family: "Roboto", sans-serif;
   }
-  .div-10 {
+  .div-13 {
     display: flex;
     flex-direction: column;
     max-width: 100%;
@@ -199,11 +155,11 @@
     padding-bottom: 24px;
     padding-left: 24px;
   }
-  .div-11 {
+  .div-14 {
     display: flex;
   }
   @media (max-width: 999px) {
-    .div-11 {
+    .div-14 {
       flex-direction: column;
       align-items: stretch;
     }
@@ -220,7 +176,149 @@
       width: 100%;
     }
   }
-  .div-12 {
+  .div-15 {
+    display: flex;
+    flex-direction: row;
+    max-width: 28px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    border-color: rgba(31, 31, 31, 1);
+    border-width: 1px;
+    border-style: solid;
+    color: rgb(134, 133, 133);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .column-3 {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: calc(52.69% - 10px);
+    margin-left: 20px;
+  }
+  @media (max-width: 999px) {
+    .column-3 {
+      width: 100%;
+    }
+  }
+  .div-16 {
+    display: flex;
+    flex-direction: row;
+    max-width: 46px;
+    justify-content: center;
+    align-items: center;
+    padding-top: 12px;
+    padding-right: 16px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    color: rgba(255, 255, 255, 1);
+    font-size: 16px;
+    line-height: 20px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-17 {
+    display: flex;
+    flex-direction: column;
+    max-width: 358px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-color: rgba(222, 222, 222, 1);
+    border-width: 1px;
+    border-style: solid;
+    background-color: rgba(255, 255, 255, 1);
+  }
+  .div-18 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+    border-color: rgba(234, 234, 234, 1);
+    border-width: 1px;
+    border-style: solid;
+  }
+  .div-19 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-19 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .div-20 {
+    max-width: 310px;
+    color: rgba(31, 31, 31, 1);
+    font-size: 18px;
+    letter-spacing: 0%;
+    text-align: left;
+    font-family: "Roboto", sans-serif;
+  }
+  .div-21 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-top: 24px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-22 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-22 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .div-23 {
+    display: flex;
+    flex-direction: column;
+    max-width: 100%;
+    align-self: stretch;
+    width: 358px;
+    padding-right: 24px;
+    padding-bottom: 24px;
+    padding-left: 24px;
+  }
+  .div-24 {
+    display: flex;
+  }
+  @media (max-width: 999px) {
+    .div-24 {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  .column-4 {
+    display: flex;
+    flex-direction: column;
+    line-height: normal;
+    width: calc(52.69% - 10px);
+    margin-left: 0px;
+  }
+  @media (max-width: 999px) {
+    .column-4 {
+      width: 100%;
+    }
+  }
+  .div-25 {
     display: flex;
     flex-direction: row;
     max-width: 28px;
@@ -240,7 +338,7 @@
     text-align: left;
     font-family: "Roboto", sans-serif;
   }
-  .column-3 {
+  .column-5 {
     display: flex;
     flex-direction: column;
     line-height: normal;
@@ -248,21 +346,20 @@
     margin-left: 20px;
   }
   @media (max-width: 999px) {
-    .column-3 {
+    .column-5 {
       width: 100%;
     }
   }
-  .div-13 {
+  .div-26 {
     display: flex;
     flex-direction: row;
-    max-width: 80px;
+    max-width: 46px;
     justify-content: center;
     align-items: center;
     padding-top: 12px;
     padding-right: 16px;
     padding-bottom: 12px;
     padding-left: 16px;
-    background-color: rgba(31, 31, 31, 1);
     color: rgba(255, 255, 255, 1);
     font-size: 16px;
     line-height: 20px;
@@ -270,96 +367,15 @@
     text-align: left;
     font-family: "Roboto", sans-serif;
   }
-  .div-14 {
-    display: flex;
-    flex-direction: column;
-    max-width: 358px;
-    justify-content: flex-start;
-    align-items: flex-start;
-    margin-top: 9px;
-    border-color: rgba(222, 222, 222, 1);
-    border-width: 1px;
-    border-style: solid;
-    background-color: rgba(255, 255, 255, 1);
-  }
-  .div-15 {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    align-self: stretch;
-    width: 358px;
-    padding-top: 24px;
-    padding-right: 24px;
-    padding-bottom: 24px;
-    padding-left: 24px;
-    border-color: rgba(234, 234, 234, 1);
-    border-width: 1px;
-    border-style: solid;
-  }
-  .div-16 {
-    display: flex;
-  }
-  @media (max-width: 999px) {
-    .div-16 {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  }
-  .div-17 {
-    max-width: 310px;
-    color: rgba(31, 31, 31, 1);
-    font-size: 18px;
-    letter-spacing: 0%;
-    text-align: left;
-    font-family: "Roboto", sans-serif;
-  }
-  .div-18 {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    align-self: stretch;
-    width: 358px;
-    padding-top: 24px;
-    padding-right: 24px;
-    padding-bottom: 24px;
-    padding-left: 24px;
-  }
-  .div-19 {
-    display: flex;
-  }
-  @media (max-width: 999px) {
-    .div-19 {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  }
-  .div-20 {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    align-self: stretch;
-    width: 358px;
-    padding-right: 24px;
-    padding-bottom: 24px;
-    padding-left: 24px;
-  }
-  .div-21 {
-    display: flex;
-  }
-  @media (max-width: 999px) {
-    .div-21 {
-      flex-direction: column;
-      align-items: stretch;
-    }
-  }
-  .div-22 {
+  .div-27 {
     display: flex;
     flex-direction: row;
-    max-width: 99px;
+    max-width: 48px;
     justify-content: center;
     align-items: center;
     padding-top: 12px;
     padding-right: 16px;
+    padding-bottom: 12px;
     padding-left: 16px;
     border-color: rgba(31, 31, 31, 1);
     border-width: 1px;
@@ -371,18 +387,17 @@
     text-align: left;
     font-family: "Roboto", sans-serif;
   }
-  .div-23 {
+  .div-28 {
+    margin-top: 2rem;
     display: flex;
     flex-direction: row;
-    max-width: 154px;
+    max-width: 107px;
     justify-content: center;
     align-items: center;
-    margin-top: 9px;
     padding-top: 12px;
     padding-right: 16px;
     padding-bottom: 12px;
     padding-left: 16px;
-    background-color: rgba(31, 31, 31, 1);
     color: rgba(255, 255, 255, 1);
     font-size: 16px;
     line-height: 20px;
@@ -390,18 +405,17 @@
     text-align: left;
     font-family: "Roboto", sans-serif;
   }
-  .div-24 {
+  .div-29 {
+    margin-top: 2rem;
     display: flex;
     flex-direction: row;
     max-width: 51px;
     justify-content: center;
     align-items: center;
-    margin-top: 9px;
     padding-top: 12px;
     padding-right: 16px;
     padding-bottom: 12px;
     padding-left: 16px;
-    background-color: rgba(31, 31, 31, 1);
     color: rgba(255, 255, 255, 1);
     font-size: 16px;
     line-height: 20px;
@@ -409,4 +423,32 @@
     text-align: left;
     font-family: "Roboto", sans-serif;
   }
-</style>
+
+  a{
+    text-decoration: none;
+    margin: 5px;
+  }
+  section.reviews {
+    min-height: 300px;
+  }
+  .btn{
+    background: none;
+    color: black;
+    font-size: 80%;
+    text-decoration: initial;
+    min-width: 200px;
+    height: 15px;
+    border:0;
+    display: block;
+    margin: 10px auto;
+    text-align: center;
+    border: 2px solid #00eab3;
+    padding: 14px 20px;
+    outline: none;
+    border-radius: 24px;
+    transition: 0.25s;
+    cursor: pointer;
+  }
+  .btn:hover{
+      background-color: #00eab3;
+  }
