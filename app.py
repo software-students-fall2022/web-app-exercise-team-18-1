@@ -57,7 +57,7 @@ def home(uid):
     Route for the home page after login
     """
     doc = db.users.find_one({'username': uid}) # sort in descending order of created_at timestamp
-    if(doc['is_owner'] == 0):
+    if(int(doc['is_owner']) == 0):
         return redirect(url_for('cs_home', csid=uid, uid=uid))
     else:
         return redirect(url_for('ft_home', ftid=uid, uid=uid)) # render the hone template
@@ -283,7 +283,7 @@ def register_owner():
         location = request.form.get('location')
         open_time = request.form.get('open_time')
         close_time = request.form.get('close_time')
-
+        count = db.ft.count({})
 
         if db.users.count({"username": username}) > 0:
             return render_template('register_owner.html', error='User already exists!')
@@ -314,7 +314,7 @@ def register_owner():
                 "is_owner": 1
             })
             db.ft.insert({
-                "ftid": username,
+                "ftid": count+1,
                 "name": ft_name,
                 "location": location,
                 "open_time": open_time,
@@ -504,13 +504,14 @@ def edit_info(ftid):
 
 @app.route('/cs/<csid>/home')
 def cs_home(csid):
-    recent_review = db.reviews.find_one({'username': csid})
+    recent_review = db.reviews.find_one({'csid': csid})
     print(recent_review, csid)
     return render_template('customer_home.html', recent_review=recent_review, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/reviews/')
 def view_reviews_by_user(csid):
-    docs = db.reviews.find({'username': csid})
+    docs = db.reviews.find({'csid': csid})
+    print(docs)
     return render_template('view_cus_reviews.html', docs=docs, csid=csid, uid=csid)
 
 @app.route('/cs/<csid>/browse/trucks/', methods=['GET', 'POST'])
