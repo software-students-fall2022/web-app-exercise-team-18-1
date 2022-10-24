@@ -1,7 +1,7 @@
 <div class="div">
     <div class="div-2">
         <form method="get" action="{{ url_for('add_items', ftid=ftid) }}">
-          <input type="submit" name="add-item-btn" value="Add_Item"/>
+          <input type="submit" name="add-item-btn" value="Add Item"/>
       </form>
     </div>
     <div class="div-3">Your Menu</div>
@@ -47,6 +47,11 @@
         </div>
       {%endfor%}
     </section>
+    <div class="div-2">
+      <form method="get" action="{{ url_for('ft_home', ftid=ftid) }}">
+        <input type="submit" name="back-btn" value="Back"/>
+    </form>
+  </div>
   </div>
   <style>
     .div {

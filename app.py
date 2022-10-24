@@ -280,7 +280,7 @@ def register_owner():
         phone_number = request.form.get('phone_number')
 
         ft_name = request.form.get('ft_name')
-        location = request.form.get('location')
+        location = request.form.get("location")
         open_time = request.form.get('open_time')
         close_time = request.form.get('close_time')
         count = db.ft.count({})
