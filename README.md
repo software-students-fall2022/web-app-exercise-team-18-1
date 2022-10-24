@@ -5,6 +5,10 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
+An application to make viewing menus/ looking at reviews of food trucks convenient for users.
+
+## Product Description
+
 We have seen the application for the chain of fast-casual restaurants such as [Chipotle](https://apps.apple.com/us/app/chipotle-fresh-food-fast/id327228455), which allows users to check the menu and place an order. However, it is currently inconvenient for people to view the menus of food trucks, and order online. Thus, we plan to design an app to enable users to check the menus of food trucks online and allow the truck owners to manage their data on that website. 
 
 
@@ -14,9 +18,9 @@ Our user stories can be found [here](https://github.com/software-students-fall20
 
 As a customer, I want to know what is on the menu of a certain food truck.
 
-As a customer, I want to place orders of food trucks online.
-
 As a customer, I want to leave a review.
+
+As a customer, I want to view/edit my reviews.
 
 As a customer, I want to search by highest rated food trucks.
 
@@ -26,7 +30,7 @@ As a food truck owner, I want to update the items on the menu.
 
 As a food truck owner, I want to update the prices of items on the menu.
 
-As a food truck owner, I want to indicate availability.
+As a food truck owner, I want to indicate availability and update my information.
 
 
 
