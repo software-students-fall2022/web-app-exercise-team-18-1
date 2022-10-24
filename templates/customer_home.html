@@ -41,10 +41,10 @@
         </div>
         
       </section>
-      <a href="{{url_for('view_reviews_by_user', csid=csid)}}" class="btn">See All</a>
+      <a href="/cs/{{csid}}/browse/reviews" class="btn">See All</a>
     </div>
     <div class="div-28">
-      <a href="{{url_for('browse_trucks', csid=csid)}}" class="btn">Browse Trucks</a>
+      <a href="/cs/{{csid}}/browse/trucks" class="btn">Browse Trucks</a>
     </div>
     <div class="div-29">
       <a href="{{ url_for('login')}}" class="btn">Logout</a>
