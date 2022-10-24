@@ -313,7 +313,7 @@ def register_owner():
                 "phone_number": phone_number,
                 "is_owner": 1
             })
-            db.food_trucks.insert({
+            db.ft.insert({
                 "ftid": username,
                 "name": ft_name,
                 "location": location,
@@ -375,8 +375,8 @@ def ft_home(ftid):
         num=1
         sumx=3
     avg= float(sumx/num)
-    db.food_trucks.update_one({"ftid":ftid},{'$set':{'avg_rating': avg}})
-    doc = db.food_trucks.find_one({"ftid": ftid}) #find details of the food truck
+    db.ft.update_one({"ftid":ftid},{'$set':{'avg_rating': avg}})
+    doc = db.ft.find_one({"ftid": ftid}) #find details of the food truck
     return render_template('business_home.html', doc=doc, ftid=ftid) # render the home template
 
 #adding items to menu for a food truck
@@ -460,12 +460,12 @@ def delete_menu_item(ftid,name):
 
 @app.route('/ft/<ftid>/edit/', methods=['GET', 'POST'])
 def edit_info(ftid):
-    doc = db.food_trucks.find_one({"ftid": ftid})
+    doc = db.ft.find_one({"ftid": ftid})
 
     if(request.method == 'GET'):
         return render_template('edit_info.html', doc=doc, ftid=ftid)
     else:
-        orig_doc = db.food_trucks.find_one({"ftid": ftid})
+        orig_doc = db.ft.find_one({"ftid": ftid})
 
         location = orig_doc['location']
         open_time = orig_doc['open_time']
@@ -484,7 +484,7 @@ def edit_info(ftid):
             'close_time': close_time
         }
 
-        db.food_trucks.update_one(
+        db.ft.update_one(
             {'ftid': ftid},
             {'$set': new_doc}
         )
