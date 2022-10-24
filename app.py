@@ -364,16 +364,19 @@ def ft_home(ftid):
     doc = db.ft.find_one({"ftid": ftid}) # sort in descending order of created_at timestamp
     return render_template('business_home.html', doc=doc) # render the hone template
 
+#viewing menu for a food truck
 @app.route('/ft/<ftid>/menu/')
 def view_bus_menu(ftid):
     docs = db.menu.find({'ftid': ftid})
     return render_template('view_bus_menu.html', docs=docs)
 
+#viewing reviews for a food truck
 @app.route('/ft/<ftid>/reviews/')
 def view_bus_rev(ftid):
     docs = db.reviews.find({'ftid': ftid})
     return render_template('view_bus_reviews.html', docs=docs)
 
+#adding items to menu for a food truck
 @app.route('/ft/<ftid>/menu/add/', methods=['GET', 'POST'])
 def add_item(ftid):
     if(request.method == 'GET'):
@@ -398,8 +401,8 @@ def add_item(ftid):
 
 # how are menu items being stored / how are we grouping them so that the
 @app.route('/ft/<ftid>/menu/<mongoid>/edit/', methods=['GET', 'POST'])
-def edit_menu(mongoid):
-    doc = db.menu.find_one({'_id': ObjectId(mongoid)})
+def edit_menu(ftid,name):
+    doc = db.menu.find_one({'ftid': ftid, "name":name})
 
     if(request.method == 'GET'):
         return render_template('edit_item.html', doc=doc)
@@ -426,15 +429,15 @@ def edit_menu(mongoid):
         }
 
         db.menu.update_one(
-            {'_id': ObjectId(mongoid)},
+            {'ftid':ftid,'name': doc[name]},
             {'$set': new_doc}
         )
 
         return redirect(url_for('view_bus_menu'))
 
 @app.route('/ft/<ftid>/menu/delete')
-def delete_menu_item(mongoid):
-    db.menu.delete_one({'_id': ObjectId(mongoid)})
+def delete_menu_item(ftid,name):
+    db.menu.delete_one({'ftid': ftid, 'name':name})
     return redirect(url_for('view_bus_menu'))
         
 
@@ -639,104 +642,6 @@ def leave_review(ftid, csid):
         db.reviews.insert_one(doc)
 
         return redirect(url_for('browse_trucks'))
-
-
-# #Adding menu items for restaurant owners
-# @app.route('/ft/<ftid>/add',methods=['POST'])
-# def menu_add(ftid):
-#     name = request.form['fname']
-#     desc = request.form['fdesc']
-#     price = request.form['fprice']
-
-#     doc = {
-#         # "_id": ObjectId(mongoid), 
-#         "name": name, 
-#         "desc": desc, 
-#         "price": price,
-#         "is_item": 1,
-#         "is_hrs": 0,
-#         "is_rev": 0,
-#         "is_loc": 0
-#     }
-
-#     # db.ftid.insert_one(doc)
-#     return redirect
-
-# #deleting menu items
-# @app.route('/ft/<ftid>/delete/<itemid>')
-# def delete_item(itemid):   
-#     db.ftid.delete_one({"_id": ObjectId(itemid)})
-#     return redirect(url_for('home')) # tell the web browser to make a request for the / route (the home function)
-
-# #updating menu items
-# @app.route('/ft/<ftid>/edit/<itemid>', methods=['POST'])
-# def edit_item(itemid):
- 
-# #     name = request.form['fname']
-# #     desc = request.form['fdesc']
-# #     price = request.form['fprice']
-
-# #     doc = {
-# #         # "_id": ObjectId(mongoid), 
-# #         "name": name, 
-# #         "desc": desc, 
-# #         "price": price,
-# #         "is_item": 1,
-# #         "is_hrs": 0,
-# #         "is_rev": 0,
-# #         "is_loc": 0
-# #     }
-
-# #     db.ftid.update_one(
-# #         {"_id": ObjectId(itemid)}, # match criteria
-# #         { "$set": doc }
-# #     )
-
-#     return redirect(url_for('home')) # tell the browser to make a request for the / route (the home function)
-
-# #Changing availability
-
-# @app.route('/ft/<ftid>/update/<avid>', methods=['POST'])
-# def update_avai(avid):
- 
-# #     from_x = request.form['from']
-# #     to_x = request.form['to']
-    
-# #     #maybe add error handling here
-    
-# #     doc = {
-# #         # "_id": ObjectId(mongoid), 
-# #         "from": from_x, 
-# #         "to": to_x,
-# #         "is_item": 0,
-# #         "is_hrs": 1,
-# #         "is_rev": 0,
-# #         "is_loc": 0
-# #     }
-
-#     # db.ftid.update_one(
-#     #     {"_id": ObjectId(avid)}, # match criteria
-#     #     { "$set": doc }
-#     # )
-
-#     return home() # tell the browser to make a request for the / route (the home function)
-
-
-#Adding photos
-
-
-#User browsing restaurants
-
-# @app.route('/u/<uid>/<ftid>')
-# def browse_restaurants():
-#     items = db.ftid.find({}) # sort in descending order of created_at timestamp
-#     revs= db.ftid.find({})
-#     open_hrs = db.v
-#     return render_template('food_truck.html', items=items, revs=revs, ) # render the hone template
-
-
-
-
 
 
 # route to handle any errors
