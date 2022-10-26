@@ -45,4 +45,4 @@ As a food truck owner, I want to indicate availability and update my information
 
 ## Running the App
 
-Please use the .env file supplied in our (team-18) team chat on Discord to run the app using the correct mongodb uri. You can run the app using `python app.py`.
+Please use the .env file supplied in our (team-18) team chat on Discord to run the app using the correct mongodb uri. You can run the app using `python app.py` or `flask run`.
