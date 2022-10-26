@@ -1,4 +1,5 @@
 [![Open in Visual Studio Code](https://classroom.github.com/assets/open-in-vscode-c66648af7eb3fe8bc4f294546bfd86ef473780cde1dea487d3c4ff354943c9ae.svg)](https://classroom.github.com/online_ide?assignment_repo_id=8874530&assignment_repo_type=AssignmentRepo)
+
 # Web Application Exercise
 
 A little exercise to build a web application following an agile development process. See the [instructions](instructions.md) for more detail.
@@ -36,11 +37,12 @@ As a food truck owner, I want to view the reviews of my food truck.
 
 As a food truck owner, I want to indicate availability and update my information.
 
-
-
-
 ## Task boards
 
 [Taskboard for Sprint 1](https://github.com/orgs/software-students-fall2022/projects/18)
 
 [Taskboard for Sprint 2](https://github.com/orgs/software-students-fall2022/projects/19)
+
+## Running the App
+
+Please use the .env file supplied in our (team-18) team chat on Discord to run the app using the correct mongodb uri. You can run the app using `python app.py`.
