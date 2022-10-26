@@ -3,6 +3,12 @@
 
 A little exercise to build a web application following an agile development process. See the [instructions](instructions.md) for more detail.
 
+Team-18 members:
+
+* Ian Liao
+* Sneheel Sarangi
+* John Kolibachuk
+
 ## Product vision statement
 
 A web application to make viewing menus or reviews of food trucks convenient for a consumer.
